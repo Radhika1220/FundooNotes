@@ -1,6 +1,7 @@
 ﻿using FundooNotes.Managers.Interface;
 using FundooNotes.Models;
 using FundooNotes.Repository.Interface;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,6 +22,17 @@ namespace FundooNotes.Managers.Manager
             try
             {
                 return this.repoistory.Register(userData);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public bool Login(string email,string password)
+        {
+            try
+            {
+                return this.repoistory.Login(email,password);
             }
             catch(Exception ex)
             {

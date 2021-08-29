@@ -9,5 +9,6 @@ namespace FundooNotes.Managers.Interface
     public interface IUserManager
     {
         bool Register(RegisterModel userData);
+        bool Login(string email, string password);
     }
 }
