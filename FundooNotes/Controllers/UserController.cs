@@ -1,41 +1,45 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="UserContorller.cs" company="Bridgelabz">
+// <copyright file="UserController.cs" company="Bridgelabz">
 //   Copyright © 2021 Company="BridgeLabz"
 // </copyright>
 // <creator name="Radhika"/>
 // ----------------------------------------------------------------------------------------------------------
 
-using FundooNotes.Managers.Interface;
-using FundooNotes.Models;
-using Microsoft.AspNetCore.Mvc;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace FundooNotes.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using FundooNotes.Managers.Interface;
+    using FundooNotes.Models;
+    using Microsoft.AspNetCore.Mvc;
+    using global::Models;
 
+    /// <summary>
+    /// Controller class-controlling API
+    /// </summary>
     public class UserController : ControllerBase
     {
         /// <summary>
-        /// 
+        /// instance user manager 
         /// </summary>
         private readonly IUserManager manager;
+
         /// <summary>
-        /// 
+        /// Initializes a new instance of the <see cref="UserController"/> class
         /// </summary>
-        /// <param name="manager"></param>
+        /// <param name="manager">manager parameter</param>
         public UserController(IUserManager manager)
         {
             this.manager = manager;
         }
+
         /// <summary>
-        /// 
+        /// controller-register  method
         /// </summary>
-        /// <param name="userData"></param>
-        /// <returns></returns>
+        /// <param name="userData">passing a register model data</param>
+        /// <returns>return http status if registered successfully</returns>
         [HttpPost]
         [Route("api/register")]
 
@@ -43,7 +47,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                //sending data to manager
+                // sending data to manager
                 bool result = this.manager.Register(userData);
                 if (result == true)
                 {
@@ -59,11 +63,12 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
-        /// 
+        /// login API for already existing user 
         /// </summary>
-        /// <param name="loginData"></param>
-        /// <returns></returns>
+        /// <param name="loginData">login model data</param>
+        /// <returns>returns http status if logged in successfully</returns>
         [HttpGet]
         [Route("api/Login")]
 
@@ -86,19 +91,20 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
         /// <summary>
-        /// 
+        /// forgot password data
         /// </summary>
-        /// <param name="Email"></param>
-        /// <returns></returns>
+        /// <param name="email">email as string type</param>
+        /// <returns>returns http status </returns>
         [HttpGet]
         [Route("api/forgetPassword")]
-        public IActionResult ForgetPassword(string Email)
+        public IActionResult ForgetPassword(string email)
         {
             try
             {
-                //Send user data to manager
-                bool result = this.manager.ForgetPassword(Email);
+                // Send user data to manager
+                bool result = this.manager.ForgetPassword(email);
                 if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please check your email" });
@@ -113,6 +119,12 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// reset password  API
+        /// </summary>
+        /// <param name="resetPassword">passing a reset password data model</param>
+        /// <returns>returns action result(http status)</returns>
         [HttpPut]
         [Route("api/resetPassword")]
         public IActionResult ResetPassword([FromBody] ResetPasswordModel resetPassword)
@@ -122,11 +134,11 @@ namespace FundooNotes.Controllers
                 bool result = this.manager.ResetPassword(resetPassword);
                 if (result == true)
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reset password link " });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reseted password successfully" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = " not Reset password link" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "not reseted password correctly" });
                 }
             }
             catch (Exception ex)
@@ -136,4 +148,3 @@ namespace FundooNotes.Controllers
         }
     }
 }
-

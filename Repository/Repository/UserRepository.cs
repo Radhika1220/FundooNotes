@@ -17,8 +17,8 @@ namespace FundooNotes.Repository.Repository
     using Experimental.System.Messaging;
     using FundooNotes.Models;
     using FundooNotes.Repository.Interface;
-    using global::Repository.Context;
     using global::Models;
+    using global::Repository.Context;
 
     /// <summary>
     /// Class UserRepository
@@ -151,6 +151,36 @@ namespace FundooNotes.Repository.Repository
         }
 
         /// <summary>
+        /// reset password method for repository class
+        /// </summary>
+        /// <param name="resetPassword">model as parameter</param>
+        /// <returns>returns true if password is reset</returns>
+        public bool ResetPassword(ResetPasswordModel resetPassword)
+        {
+            try
+            {
+                if (resetPassword != null)
+                {
+                    var data = this.userContext.Users.Where(x => x.Email == resetPassword.EmailId).FirstOrDefault();
+                    if (data != null)
+                    {
+                        data.Password = this.EncryptPassWord(resetPassword.NewPassword);
+                        this.userContext.SaveChanges();
+                        return true;
+                    }
+
+                    return false;
+                }
+
+                return false;
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// SMTP Configuration
         /// </summary>
         /// <param name="email">Email Id</param>
@@ -171,29 +201,5 @@ namespace FundooNotes.Repository.Repository
             smtp.Send(mailMessage);
             return true;
         }
-
-        public bool ResetPassword(ResetPasswordModel resetPassword)
-        {
-            try
-            {
-                if(resetPassword!=null)
-                {
-                    var data = this.userContext.Users.Where(x => x.Email == resetPassword.EmailId).FirstOrDefault();
-                    if(data!=null)
-                    {
-                        data.Password = EncryptPassWord(resetPassword.NewPassword);
-                        //this.userContext.Add(data);
-                        this.userContext.SaveChanges();
-                        return true;
-                    }
-                    return false;
-                }
-                return false;
-            }
-            catch(ArgumentNullException ex)
-            {
-                throw new Exception(ex.Message);
-            }
         }
     }
-}

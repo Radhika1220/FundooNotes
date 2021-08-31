@@ -40,6 +40,12 @@ namespace FundooNotes.Repository.Interface
      /// <param name="email">email as string type</param>
      /// <returns>boolean type </returns>
         bool ForgetPassword(string email);
+
+        /// <summary>
+        /// definition for reset password in user repository class
+        /// </summary>
+        /// <param name="resetPassword">passing a model as parameter</param>
+        /// <returns>returns true </returns>
         bool ResetPassword(ResetPasswordModel resetPassword);
     }
 }

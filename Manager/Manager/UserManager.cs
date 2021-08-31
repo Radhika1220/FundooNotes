@@ -88,6 +88,11 @@ namespace FundooNotes.Managers.Manager
             }
         }
 
+        /// <summary>
+        /// Reset password method for manager class to pass data in repository
+        /// </summary>
+        /// <param name="resetPasswordModel">model as parameter</param>
+        /// <returns>returns true </returns>
         public bool ResetPassword(ResetPasswordModel resetPasswordModel)
         {
             try
