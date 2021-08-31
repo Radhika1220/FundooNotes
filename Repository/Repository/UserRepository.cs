@@ -1,30 +1,48 @@
-﻿
-using FundooNotes.Models;
-using FundooNotes.Repository.Interface;
-using Repository.Context;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Net.Mail;
-using System.Net;
-using System;
-using Experimental.System.Messaging;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Radhika"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace FundooNotes.Repository.Repository
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Mail;
+    using System.Text;
+    using System.Threading.Tasks;
+    using Experimental.System.Messaging;
+    using FundooNotes.Models;
+    using FundooNotes.Repository.Interface;
+    using global::Repository.Context;
+
+    /// <summary>
+    /// Class UserRepository
+    /// </summary>
     public class UserRepository : IUserRepository
     {
-      
+        /// <summary>
+        /// Declaring UserContext 
+        /// </summary>
         private readonly UserContext userContext;
 
-  
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepository"/> class
+        /// </summary>
+        /// <param name="userContext">Passing UserContext(DB model)</param>
         public UserRepository(UserContext userContext)
         {
             this.userContext = userContext;
         }
 
-        
+        /// <summary>
+        /// new Registration for user
+        /// </summary>
+        /// <param name="userData">RegisterModel Data</param>
+        /// <returns>returns true</returns>
         public bool Register(RegisterModel userData)
         {
             try
@@ -45,7 +63,11 @@ namespace FundooNotes.Repository.Repository
             }
         }
 
-      
+        /// <summary>
+        /// Encrypt The Password
+        /// </summary>
+        /// <param name="password">Passing Password To Encrypt</param>
+        /// <returns>Encrypted Password</returns>
         public string EncryptPassWord(string password)
         {
             var passwordInBytes = Encoding.UTF8.GetBytes(password);
@@ -53,7 +75,12 @@ namespace FundooNotes.Repository.Repository
             return encodePassword;
         }
 
-   
+        /// <summary>
+        /// For login 
+        /// </summary>
+        /// <param name="email">Email Id</param>
+        /// <param name="password">Password String type</param>
+        /// <returns>Returns true if existing user present</returns>
         public bool Login(string email, string password)
         {
             try
@@ -68,19 +95,20 @@ namespace FundooNotes.Repository.Repository
                 else
                 {
                     return true;
-                }
-              
+                } 
             }
-
-          catch (ArgumentNullException ex)
+            catch (ArgumentNullException ex)
             {
                 throw new ArgumentNullException(ex.Message);
-
             }
-
         }
- 
-        public bool ForgetPassword(string Email)
+
+        /// <summary>
+        /// Forgot password API
+        /// </summary>
+        /// <param name="email">email type string </param>
+        /// <returns>true if message sent to mail</returns>
+        public bool ForgetPassword(string email)
         {
             try
             {
@@ -106,7 +134,7 @@ namespace FundooNotes.Repository.Repository
                 receivemsg.Formatter = new BinaryMessageFormatter();
 
                 string linktosend = receivemsg.Body.ToString();
-                if (this.SendMail(Email, linktosend))
+                if (this.SendMail(email, linktosend))
                 {
                     return true;
                 }
@@ -121,7 +149,12 @@ namespace FundooNotes.Repository.Repository
             }
         }
 
-        
+        /// <summary>
+        /// SMTP Configuration
+        /// </summary>
+        /// <param name="email">Email Id</param>
+        /// <param name="message">Message or url</param>
+        /// <returns>returns true</returns>
         private bool SendMail(string email, string message)
         {
             MailMessage mailMessage = new MailMessage();
