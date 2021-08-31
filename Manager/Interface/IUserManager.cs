@@ -12,6 +12,7 @@ namespace FundooNotes.Managers.Interface
     using System.Linq;
     using System.Threading.Tasks;
     using FundooNotes.Models;
+    using global::Models;
 
     /// <summary>
     /// interface for user manager class
@@ -39,5 +40,6 @@ namespace FundooNotes.Managers.Interface
         /// <param name="email">email as string type</param>
         /// <returns>boolean value</returns>
         bool ForgetPassword(string email);
+        bool ResetPassword(ResetPasswordModel resetPasswordModel);
     }
 }

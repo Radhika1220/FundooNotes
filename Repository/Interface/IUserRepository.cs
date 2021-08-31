@@ -12,6 +12,7 @@ namespace FundooNotes.Repository.Interface
     using System.Linq;
     using System.Threading.Tasks;
     using FundooNotes.Models;
+    using global::Models;
 
     /// <summary>
     /// interface-for user repository
@@ -39,5 +40,6 @@ namespace FundooNotes.Repository.Interface
      /// <param name="email">email as string type</param>
      /// <returns>boolean type </returns>
         bool ForgetPassword(string email);
+        bool ResetPassword(ResetPasswordModel resetPassword);
     }
 }

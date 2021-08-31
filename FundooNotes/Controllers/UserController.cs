@@ -1,4 +1,11 @@
-﻿using FundooNotes.Managers.Interface;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserContorller.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Radhika"/>
+// ----------------------------------------------------------------------------------------------------------
+
+using FundooNotes.Managers.Interface;
 using FundooNotes.Models;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -9,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
+
     public class UserController : ControllerBase
     {
         /// <summary>
@@ -36,17 +44,17 @@ namespace FundooNotes.Controllers
             try
             {
                 //sending data to manager
-               bool result= this.manager.Register(userData);
-               if(result==true)
+                bool result = this.manager.Register(userData);
+                if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Registration Successful!!!" });
                 }
-               else
+                else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Registration UnSuccessful!!!" });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
@@ -71,9 +79,9 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful!!!" });
-                }       
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
@@ -105,5 +113,27 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("api/resetPassword")]
+        public IActionResult ResetPassword([FromBody] ResetPasswordModel resetPassword)
+        {
+            try
+            {
+                bool result = this.manager.ResetPassword(resetPassword);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reset password link " });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = " not Reset password link" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
+

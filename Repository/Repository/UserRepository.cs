@@ -18,6 +18,7 @@ namespace FundooNotes.Repository.Repository
     using FundooNotes.Models;
     using FundooNotes.Repository.Interface;
     using global::Repository.Context;
+    using global::Models;
 
     /// <summary>
     /// Class UserRepository
@@ -169,6 +170,30 @@ namespace FundooNotes.Repository.Repository
             smtp.Credentials = new NetworkCredential("radhika.shankar1220@gmail.com", "kriyanthi");
             smtp.Send(mailMessage);
             return true;
+        }
+
+        public bool ResetPassword(ResetPasswordModel resetPassword)
+        {
+            try
+            {
+                if(resetPassword!=null)
+                {
+                    var data = this.userContext.Users.Where(x => x.Email == resetPassword.EmailId).FirstOrDefault();
+                    if(data!=null)
+                    {
+                        data.Password = EncryptPassWord(resetPassword.NewPassword);
+                        //this.userContext.Add(data);
+                        this.userContext.SaveChanges();
+                        return true;
+                    }
+                    return false;
+                }
+                return false;
+            }
+            catch(ArgumentNullException ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

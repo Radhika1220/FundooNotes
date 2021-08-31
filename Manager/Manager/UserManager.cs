@@ -14,10 +14,11 @@ namespace FundooNotes.Managers.Manager
     using FundooNotes.Managers.Interface;
     using FundooNotes.Models;
     using FundooNotes.Repository.Interface;
+    using global::Models;
 
-   /// <summary>
-   /// Class user manager
-   /// </summary>
+    /// <summary>
+    /// Class user manager
+    /// </summary>
     public class UserManager : IUserManager
     {
         /// <summary>
@@ -80,6 +81,19 @@ namespace FundooNotes.Managers.Manager
             {
                 // Send userdata to Repository and return result true or false
                 return this.repoistory.ForgetPassword(email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool ResetPassword(ResetPasswordModel resetPasswordModel)
+        {
+            try
+            {
+                // Send userdata to Repository and return result true or false
+                return this.repoistory.ResetPassword(resetPasswordModel);
             }
             catch (Exception ex)
             {
