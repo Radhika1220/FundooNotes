@@ -31,9 +31,8 @@ namespace FundooNotes
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddRazorPages();
             services.AddDbContextPool<UserContext>(
-                options => options.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
+            options => options.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
             services.AddTransient<IUserRepository,UserRepository>();
             services.AddTransient<IUserManager, UserManager>();
         }

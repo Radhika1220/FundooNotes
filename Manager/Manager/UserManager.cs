@@ -39,5 +39,17 @@ namespace FundooNotes.Managers.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public bool ForgetPassword(string Email)
+        {
+            try
+            {
+                //Send userdata to Repository and return result true or false
+                return this.repoistory.ForgetPassword(Email);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

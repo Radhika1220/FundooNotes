@@ -10,5 +10,6 @@ namespace FundooNotes.Managers.Interface
     {
         bool Register(RegisterModel userData);
         bool Login(string email, string password);
+        bool ForgetPassword(string Email);
     }
 }

@@ -8,9 +8,9 @@ namespace Models
     public class LoginModel
     {
         [Required]
-        public string emailId { get; set; }
+        public string EmailId { get; set; }
 
         [Required]
-        public string password { get; set; }
+        public string Password { get; set; }
     }
 }

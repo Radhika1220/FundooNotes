@@ -11,13 +11,23 @@ namespace FundooNotes.Controllers
 {
     public class UserController : ControllerBase
     {
+        /// <summary>
+        /// 
+        /// </summary>
         private readonly IUserManager manager;
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="manager"></param>
         public UserController(IUserManager manager)
         {
             this.manager = manager;
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="userData"></param>
+        /// <returns></returns>
         [HttpPost]
         [Route("api/register")]
 
@@ -41,7 +51,11 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="loginData"></param>
+        /// <returns></returns>
         [HttpGet]
         [Route("api/Login")]
 
@@ -49,7 +63,7 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.manager.Login(loginData.emailId, loginData.password);
+                bool result = this.manager.Login(loginData.EmailId, loginData.Password);
                 if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Login Successful!!!" });
@@ -60,6 +74,33 @@ namespace FundooNotes.Controllers
                 }       
             }
             catch(Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Email"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("api/forgetPassword")]
+        public IActionResult ForgetPassword(string Email)
+        {
+            try
+            {
+                //Send user data to manager
+                bool result = this.manager.ForgetPassword(Email);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please check your email" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Email not Sent" });
+                }
+            }
+            catch (Exception ex)
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }

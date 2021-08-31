@@ -10,16 +10,16 @@ namespace Repository.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    userId = table.Column<int>(nullable: false)
+                    UserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    firstName = table.Column<string>(nullable: false),
-                    lastName = table.Column<string>(nullable: false),
-                    email = table.Column<string>(nullable: false),
-                    password = table.Column<string>(nullable: false)
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Password = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.userId);
+                    table.PrimaryKey("PK_Users", x => x.UserId);
                 });
         }
 
