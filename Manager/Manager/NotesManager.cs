@@ -38,5 +38,16 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public bool TrashNotes(int notesId)
+        {
+            try
+            {
+                return this.notesRepository.TrashNotes(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -9,5 +9,7 @@ namespace Repository.Interface
     {
         string AddNotes(NotesModel notesData);
         List<NotesModel> GetNotes(int UserId);
+
+        bool TrashNotes(int notesId);
     }
 }

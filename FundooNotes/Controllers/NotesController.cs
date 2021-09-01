@@ -49,7 +49,6 @@ namespace FundooNotes.Controllers
                 var resMessage = this.notesManager.GetNotes(userId);
                 if (resMessage!=null)
                 {
-
                     return this.Ok(new { Status = true, Message ="Notes returned successfully",Data=resMessage});
                 }
                 else
@@ -60,6 +59,28 @@ namespace FundooNotes.Controllers
             catch (Exception ex)
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPut]
+        [Route("api/TrashNotes")]
+        public IActionResult TrashNotes(int noteId)
+        {
+            try
+            {
+                bool result = this.notesManager.TrashNotes(noteId);
+                if(result==true)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes Moved to trash successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+               }
+            }
+            catch(Exception ex)
+            {
+               return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
     }
