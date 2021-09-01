@@ -61,5 +61,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool UnArchiveNotes(int notesId)
+        {
+            try
+            {
+                return this.notesRepository.UnArchiveNotes(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

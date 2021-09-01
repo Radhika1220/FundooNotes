@@ -91,5 +91,25 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool UnArchiveNotes(int notesId)
+        {
+            try
+            {
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                if (checkNotesId != null)
+                {
+                    checkNotesId.Archieve = false;
+                    this.userContext.Notes.Update(checkNotesId);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

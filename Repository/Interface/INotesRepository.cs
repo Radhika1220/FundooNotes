@@ -13,5 +13,7 @@ namespace Repository.Interface
         bool TrashNotes(int notesId);
 
        bool ArchiveNotes(int notesId);
+
+       bool UnArchiveNotes(int notesId);
     }
 }
