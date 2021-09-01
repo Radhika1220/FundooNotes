@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Manager.Manager
 {
-    public class NotesManager:INotesManager
+    public class NotesManager : INotesManager
     {
         private readonly INotesRepository notesRepository;
 
@@ -22,7 +22,7 @@ namespace Manager.Manager
             {
                 return this.notesRepository.AddNotes(notesModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -120,7 +120,7 @@ namespace Manager.Manager
             }
         }
 
-        public bool ChangeColor(int noteId,string color)
+        public bool ChangeColor(int noteId, string color)
         {
             try
             {
@@ -143,5 +143,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string DeleteNotes(int noteId, int userId)
+        {
+            try
+            {
+                return this.notesRepository.DeleteNotes(noteId, userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

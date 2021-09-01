@@ -25,5 +25,6 @@ namespace Repository.Interface
         NotesModel UpdateNotes(UpdateModel updateData);
         bool ChangeColor(int noteId, string color);
         string ChangeRemainder(int noteId, string remainder);
+        string DeleteNotes(int noteId, int userId);
     }
 }

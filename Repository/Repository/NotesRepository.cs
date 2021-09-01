@@ -234,5 +234,24 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public string DeleteNotes(int noteId,int userId)
+        {
+            try
+            {
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.UserId == userId).FirstOrDefault();
+                if(checkId!=null)
+                {
+                    this.userContext.Notes.Remove(checkId);
+                    this.userContext.SaveChanges();
+                    return "Deleted Notes Successfully";
+                }
+                return "Note Id Or User Id Does not Exist!!!";
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
