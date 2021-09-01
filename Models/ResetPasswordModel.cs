@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ResponseModel.cs" company="Bridgelabz">
+// <copyright file="ResetPasswordModel.cs" company="Bridgelabz">
 //   Copyright © 2021 Company="BridgeLabz"
 // </copyright>
 // <creator name="Radhika"/>
@@ -9,27 +9,26 @@ namespace Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.Text;
 
     /// <summary>
-    /// Response model class
+    /// Class for reset password model
     /// </summary>
-    /// <typeparam name="T"> Generic type</typeparam>
-    public class ResponseModel<T>
+    public class ResetPasswordModel
     {
         /// <summary>
-        /// Gets or sets a value indicating whether status as true or false
+        /// Gets or sets the email id as string
         /// </summary>
-        public bool Status { get; set; }
+        [Required]
+
+        public string EmailId { get; set; }
 
         /// <summary>
-        /// Gets or sets the message as string
+        /// Gets or sets the new password as string
         /// </summary>
-        public string Message { get; set; }
+        [Required]
 
-        /// <summary>
-        /// Gets or sets the data as generic type
-        /// </summary>
-        public T Data { get; set; }
+        public string NewPassword { get; set; }
     }
 }

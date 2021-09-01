@@ -9,7 +9,7 @@ using Repository.Context;
 namespace Repository.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20210828111327_Fundoo")]
+    [Migration("20210831073911_Fundoo")]
     partial class Fundoo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -22,28 +22,28 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("FundooNotes.Models.RegisterModel", b =>
                 {
-                    b.Property<int>("userId")
+                    b.Property<int>("UserId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("email")
+                    b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("firstName")
+                    b.Property<string>("FirstName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("lastName")
+                    b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("password")
+                    b.Property<string>("Password")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("userId");
+                    b.HasKey("UserId");
 
                     b.ToTable("Users");
                 });
