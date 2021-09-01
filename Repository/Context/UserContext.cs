@@ -11,6 +11,7 @@ namespace Repository.Context
     using System.Text;
     using FundooNotes.Models;
     using Microsoft.EntityFrameworkCore;
+    using Models;
 
     /// <summary>
     /// UserContext Class
@@ -29,5 +30,7 @@ namespace Repository.Context
         /// Gets or sets Database set property
         /// </summary>
         public DbSet<RegisterModel> Users { get; set; }
+
+        public DbSet<NotesModel> Notes { get; set; }
     }
 }

@@ -23,6 +23,10 @@ namespace FundooNotes
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using global::Repository.Context;
+    using Manager.Interface;
+    using Manager.Manager;
+    using global::Repository.Interface;
+    using global::Repository.Repository;
 
     /// <summary>
     /// Startup class
@@ -56,6 +60,8 @@ namespace FundooNotes
             options => options.UseSqlServer(this.Configuration.GetConnectionString("UserDbConnection")));
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserManager, UserManager>();
+            services.AddTransient<INotesManager, NotesManager>();
+            services.AddTransient<INotesRepository, NotesRepository>();
         }
 
         ////This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

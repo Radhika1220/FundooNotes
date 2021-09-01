@@ -80,7 +80,7 @@ namespace FundooNotes.Controllers
                 if (!(result.Equals("login unsuccessful")))
                 {
                     string tokenString = this.manager.GenerateToken(loginData.EmailId);
-                    return this.Ok(new { Status = true, Message = "Login Successful!!!",Data=tokenString, Userdata = result.ToString()});
+                    return this.Ok(new { Status = true, Message = "Login Successful!!!",Data=tokenString, UserData= result.ToString()});
                 }
                 else
                 {
