@@ -224,7 +224,7 @@ namespace FundooNotes.Controllers
                 var result = this.notesManager.ChangeColor(noteId, color);
                 if(result==true)
                 {
-                    return this.Ok(new { Status = true, Message = "Color Changed successfully" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Color Changed successfully" });
                 }
                 else
                 {
@@ -235,7 +235,28 @@ namespace FundooNotes.Controllers
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
-        
+        }
+
+        [HttpPut]
+        [Route("api/ChangeReminder")]
+        public IActionResult ChangeRemainder(int noteId,string remainder)
+        {
+            try
+            {
+                string result = this.notesManager.ChangeRemainder(noteId, remainder);
+                if(result.Equals("Remainder Changed Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result});
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
         }
     }
 }

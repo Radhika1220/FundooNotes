@@ -131,5 +131,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string ChangeRemainder(int noteId, string remainder)
+        {
+            try
+            {
+                return this.notesRepository.ChangeRemainder(noteId, remainder);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

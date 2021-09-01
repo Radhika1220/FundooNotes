@@ -213,5 +213,26 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public string ChangeRemainder(int noteId,string remainder)
+        {
+            try
+            {
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId).FirstOrDefault();
+                if (checkId != null)
+                {
+                    checkId.Remainder = remainder;
+                    this.userContext.Notes.Update(checkId);
+                    this.userContext.SaveChanges();
+                    return "Remainder Changed Successfully";
+                }
+                return "Note Id Does not Exist!!!";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
