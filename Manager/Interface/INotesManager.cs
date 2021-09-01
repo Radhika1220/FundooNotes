@@ -8,5 +8,6 @@ namespace Manager.Interface
     public interface INotesManager
     {
         string AddNotes(NotesModel notesModel);
+        List<NotesModel> GetNotes(int userId);
     }
 }

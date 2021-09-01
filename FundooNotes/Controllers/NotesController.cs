@@ -39,5 +39,28 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpGet]
+        [Route("api/GetNotes")]
+
+        public IActionResult GetNotes(int userId)
+        {
+            try
+            {
+                var resMessage = this.notesManager.GetNotes(userId);
+                if (resMessage!=null)
+                {
+
+                    return this.Ok(new { Status = true, Message ="Notes returned successfully",Data=resMessage});
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "UserId does not exist" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
