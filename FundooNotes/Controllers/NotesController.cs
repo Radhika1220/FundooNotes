@@ -148,5 +148,50 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("api/PinNotes")]
+        public IActionResult PinNotes(int noteId)
+        {
+            try
+            {
+                bool result = this.notesManager.PinNotes(noteId);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Pinned successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
+        [HttpPut]
+        [Route("api/UnPinNotes")]
+        public IActionResult UnPinNotes(int noteId)
+        {
+            try
+            {
+                bool result = this.notesManager.UnPinNotes(noteId);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "UnPinned successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

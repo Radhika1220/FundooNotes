@@ -72,7 +72,6 @@ namespace Repository.Repository
             }
         }
 
-
         public bool RestoreNotes(int notesId)
         {
             try
@@ -121,6 +120,47 @@ namespace Repository.Repository
                 if (checkNotesId != null)
                 {
                     checkNotesId.Archieve = false;
+                    this.userContext.Notes.Update(checkNotesId);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public bool PinNotes(int notesId)
+        {
+            try
+            {
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                if (checkNotesId != null)
+                {
+                    checkNotesId.Pin = true;
+                    this.userContext.Notes.Update(checkNotesId);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public bool UnPinNotes(int notesId)
+        {
+            try
+            {
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                if (checkNotesId != null)
+                {
+                    checkNotesId.Pin = false;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();
                     return true;

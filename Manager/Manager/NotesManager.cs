@@ -84,5 +84,28 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool PinNotes(int notesId)
+        {
+            try
+            {
+                return this.notesRepository.PinNotes(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public bool UnPinNotes(int notesId)
+        {
+            try
+            {
+                return this.notesRepository.UnPinNotes(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
