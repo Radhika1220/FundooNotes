@@ -50,6 +50,17 @@ namespace Manager.Manager
             }
         }
 
+        public bool RestoreNotes(int notesId)
+        {
+            try
+            {
+                return this.notesRepository.RestoreNotes(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
         public bool ArchiveNotes(int notesId)
         {
             try

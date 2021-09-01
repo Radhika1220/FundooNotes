@@ -15,5 +15,7 @@ namespace Repository.Interface
        bool ArchiveNotes(int notesId);
 
        bool UnArchiveNotes(int notesId);
+
+        bool RestoreNotes(int notesId);
     }
 }

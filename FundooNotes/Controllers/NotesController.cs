@@ -83,6 +83,27 @@ namespace FundooNotes.Controllers
                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("api/RestoreNotes")]
+        public IActionResult RestoreNotes(int noteId)
+        {
+            try
+            {
+                bool result = this.notesManager.RestoreNotes(noteId);
+                if (result == true)
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes Restored successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
 
         [HttpPut]
         [Route("api/ArchiveNotes")]
