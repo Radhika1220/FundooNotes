@@ -215,5 +215,27 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("api/ChangeColor")]
+        public IActionResult ChangeColor(int noteId,string color)
+        {
+            try
+            {
+                var result = this.notesManager.ChangeColor(noteId, color);
+                if(result==true)
+                {
+                    return this.Ok(new { Status = true, Message = "Color Changed successfully" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist!!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        
+        }
     }
 }

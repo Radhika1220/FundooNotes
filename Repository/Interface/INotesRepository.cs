@@ -23,5 +23,6 @@ namespace Repository.Interface
         bool UnPinNotes(int notesId);
 
         NotesModel UpdateNotes(UpdateModel updateData);
+        bool ChangeColor(int noteId, string color);
     }
 }

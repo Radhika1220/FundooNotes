@@ -119,5 +119,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool ChangeColor(int noteId,string color)
+        {
+            try
+            {
+                return this.notesRepository.ChangeColor(noteId, color);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

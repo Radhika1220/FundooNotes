@@ -193,5 +193,25 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool ChangeColor(int noteId,string color)
+        {
+            try
+            {
+                var checkNoteId = this.userContext.Notes.Where(x => x.NoteId == noteId).FirstOrDefault();
+                if(checkNoteId!=null)
+                {
+                    checkNoteId.Color = color;
+                    this.userContext.Notes.Update(checkNoteId);
+                    this.userContext.SaveChanges();
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

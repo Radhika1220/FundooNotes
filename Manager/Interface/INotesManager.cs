@@ -19,5 +19,6 @@ namespace Manager.Interface
         bool UnPinNotes(int notesId);
 
         NotesModel UpdateNotes(UpdateModel updateModel);
+        bool ChangeColor(int noteId, string color);
     }
 }
