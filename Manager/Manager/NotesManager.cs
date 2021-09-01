@@ -49,5 +49,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public bool ArchiveNotes(int notesId)
+        {
+            try
+            {
+                return this.notesRepository.ArchiveNotes(notesId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

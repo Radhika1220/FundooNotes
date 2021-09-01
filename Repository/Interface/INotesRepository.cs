@@ -11,5 +11,7 @@ namespace Repository.Interface
         List<NotesModel> GetNotes(int UserId);
 
         bool TrashNotes(int notesId);
+
+       bool ArchiveNotes(int notesId);
     }
 }
