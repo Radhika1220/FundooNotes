@@ -107,5 +107,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public NotesModel UpdateNotes(UpdateModel updateModel)
+        {
+            try
+            {
+                return this.notesRepository.UpdateNotes(updateModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

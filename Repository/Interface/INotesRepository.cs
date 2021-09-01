@@ -21,5 +21,7 @@ namespace Repository.Interface
         bool PinNotes(int notesId);
 
         bool UnPinNotes(int notesId);
+
+        NotesModel UpdateNotes(UpdateModel updateData);
     }
 }

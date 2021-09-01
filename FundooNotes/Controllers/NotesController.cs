@@ -193,5 +193,27 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("api/UpdateNotes")]
+        public IActionResult UpdateNotes([FromBody] UpdateModel updateModel)
+        {
+            try 
+            {
+                var res = this.notesManager.UpdateNotes(updateModel);
+                if(res!=null)
+                {
+                    return this.Ok(new { Status = true, Message = "Upated notes successfully",Data=updateModel });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist!! OR Notes does not Updated" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

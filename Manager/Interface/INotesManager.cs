@@ -17,5 +17,7 @@ namespace Manager.Interface
         bool RestoreNotes(int notesId);
         bool PinNotes(int notesId);
         bool UnPinNotes(int notesId);
+
+        NotesModel UpdateNotes(UpdateModel updateModel);
     }
 }

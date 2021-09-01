@@ -172,5 +172,26 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public NotesModel UpdateNotes(UpdateModel updateData)
+        {
+            try
+            {
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == updateData.NoteId && x.UserId == updateData.UserId).SingleOrDefault();
+                if(checkId!=null)
+                {
+                    checkId.Title = updateData.Title;
+                    checkId.Description = updateData.Description;
+                    this.userContext.Notes.Update(checkId);
+                    this.userContext.SaveChanges();
+                    return checkId;
+                }
+                return checkId;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
