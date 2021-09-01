@@ -24,7 +24,7 @@ namespace FundooNotes.Managers.Interface
         /// </summary>
         /// <param name="userData">passing a register model</param>
         /// <returns>returning as boolean value</returns>
-        bool Register(RegisterModel userData);
+        string Register(RegisterModel userData);
 
         /// <summary>
         /// definition for login method
@@ -32,7 +32,7 @@ namespace FundooNotes.Managers.Interface
         /// <param name="email">email as string</param>
         /// <param name="password">[password as string</param>
         /// <returns>boolean value</returns>
-        bool Login(string email, string password);
+        string Login(string email, string password);
 
         /// <summary>
         /// definition for forgot password
@@ -47,5 +47,7 @@ namespace FundooNotes.Managers.Interface
         /// <param name="resetPasswordModel">reset password model data</param>
         /// <returns>returns true</returns>
         bool ResetPassword(ResetPasswordModel resetPasswordModel);
+
+        string GenerateToken(string email);
     }
 }

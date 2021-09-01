@@ -40,7 +40,7 @@ namespace FundooNotes.Managers.Manager
         /// </summary>
         /// <param name="userData">passing register model data</param>
         /// <returns>true or false(boolean value)</returns>
-        public bool Register(RegisterModel userData)
+        public string Register(RegisterModel userData)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace FundooNotes.Managers.Manager
         /// <param name="email">email as string</param>
         /// <param name="password">password as string</param>
         /// <returns>boolean value</returns>
-        public bool Login(string email, string password)
+        public string Login(string email, string password)
         {
             try
             {
@@ -99,6 +99,19 @@ namespace FundooNotes.Managers.Manager
             {
                 // Send userdata to Repository and return result true or false
                 return this.repoistory.ResetPassword(resetPasswordModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string GenerateToken(string email)
+        {
+            try
+            {
+                // Send userdata to Repository and return result true or false
+                return this.repoistory.GenerateToken(email);
             }
             catch (Exception ex)
             {

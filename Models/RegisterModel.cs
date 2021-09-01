@@ -47,5 +47,10 @@ namespace FundooNotes.Models
         /// </summary>
         [Required]
         public string Password { get; set; }
-    }
+
+        public string toString()
+        {
+            return "UserName: " + this.FirstName + " " + this.LastName +" " + "EmailId:" + this.Email;
+        }
+            }
 }

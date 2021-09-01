@@ -24,7 +24,7 @@ namespace FundooNotes.Repository.Interface
         /// </summary>
         /// <param name="userData"> passing model</param>
         /// <returns>returning boolean value</returns>
-        bool Register(RegisterModel userData);
+        string Register(RegisterModel userData);
 
         /// <summary>
         /// definition for login method
@@ -32,14 +32,15 @@ namespace FundooNotes.Repository.Interface
         /// <param name="email">Email as string type</param>
         /// <param name="password">password as string type</param>
         /// <returns>boolean type</returns>
-        bool Login(string email, string password);
+        string Login(string email, string password);
 
-     /// <summary>
-     /// definition for forgot password
-     /// </summary>
-     /// <param name="email">email as string type</param>
-     /// <returns>boolean type </returns>
+        /// <summary>
+        /// definition for forgot password
+        /// </summary>
+        /// <param name="email">email as string type</param>
+        /// <returns>boolean type </returns>
         bool ForgetPassword(string email);
+       
 
         /// <summary>
         /// definition for reset password in user repository class
@@ -47,5 +48,6 @@ namespace FundooNotes.Repository.Interface
         /// <param name="resetPassword">passing a model as parameter</param>
         /// <returns>returns true </returns>
         bool ResetPassword(ResetPasswordModel resetPassword);
+        string GenerateToken(string email);
     }
 }

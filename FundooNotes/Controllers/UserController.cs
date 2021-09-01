@@ -48,14 +48,14 @@ namespace FundooNotes.Controllers
             try
             {
                 // sending data to manager
-                bool result = this.manager.Register(userData);
-                if (result == true)
+               string resMessage= this.manager.Register(userData);
+                if (resMessage.Equals("Registration Successful"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Registration Successful!!!" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resMessage });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Registration UnSuccessful!!!" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resMessage });
                 }
             }
             catch (Exception ex)
@@ -76,10 +76,11 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.manager.Login(loginData.EmailId, loginData.Password);
-                if (result == true)
+                string result = this.manager.Login(loginData.EmailId, loginData.Password);
+                if (!(result.Equals("login unsuccessful")))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Login Successful!!!" });
+                    string tokenString = this.manager.GenerateToken(loginData.EmailId);
+                    return this.Ok(new { Status = true, Message = "Login Successful!!!",Data=tokenString, Userdata = result.ToString()});
                 }
                 else
                 {
@@ -97,7 +98,7 @@ namespace FundooNotes.Controllers
         /// </summary>
         /// <param name="email">email as string type</param>
         /// <returns>returns http status </returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/forgetPassword")]
         public IActionResult ForgetPassword(string email)
         {
