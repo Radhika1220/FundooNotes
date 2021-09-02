@@ -38,7 +38,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId).ToList();
+                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId &&x.Trash==false && x.Archieve==false).ToList();
                 if (checkUserId != null)
                 {
                     return checkUserId;
@@ -116,7 +116,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId &&x.Trash==false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
                     checkNotesId.Archieve = false;
@@ -249,6 +249,26 @@ namespace Repository.Repository
                 return "Note Id  Does not Exist!!!";
             }
             catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string DeleteRemainder(int noteId)
+        {
+            try
+            {
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.Trash == false).FirstOrDefault();
+                if(checkId!=null)
+                {
+                    checkId.Remainder = null;
+                    this.userContext.Notes.Update(checkId);
+                    this.userContext.SaveChanges();
+                    return "Deleted Remainder Successfully";
+                }
+                return "NoteId does not exist OR Trash is in True state";
+            }
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
