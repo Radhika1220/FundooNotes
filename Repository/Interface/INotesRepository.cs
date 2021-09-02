@@ -26,5 +26,18 @@ namespace Repository.Interface
         bool ChangeColor(int noteId, string color);
         string ChangeRemainder(int noteId, string remainder);
         string DeleteNotes(int noteId);
+        string DeleteRemainder(int noteId);
+
+        string EmptyTrash(int userId);
+
+        List<NotesModel> GetNotesFromRemainder(int UserId);
+
+
+        List<NotesModel> GetNotesFromArchive(int UserId);
+
+
+        List<NotesModel> GetNotesFromTrash(int userId);
+
+ 
     }
 }

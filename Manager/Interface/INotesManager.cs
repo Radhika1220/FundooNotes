@@ -23,5 +23,15 @@ namespace Manager.Interface
         string ChangeRemainder(int noteId, string remainder);
 
         string DeleteNotes(int noteId);
+
+        string DeleteRemainder(int noteId);
+
+        string EmptyTrash(int noteId);
+
+        List<NotesModel> GetNotesFromRemainder(int userId);
+
+        List<NotesModel> GetNotesFromTrash(int userId);
+
+        List<NotesModel> GetNotesFromArchive(int userId);
     }
 }

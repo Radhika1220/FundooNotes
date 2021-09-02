@@ -1,4 +1,5 @@
 ﻿using Manager.Interface;
+
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
+
     public class NotesController : ControllerBase
     {
         private readonly INotesManager notesManager;
@@ -16,7 +18,7 @@ namespace FundooNotes.Controllers
         {
             this.notesManager = notesManager;
         }
-        
+
         [HttpPost]
         [Route("api/AddNotes")]
         public IActionResult AddNotes([FromBody] NotesModel notesModel)
@@ -25,7 +27,7 @@ namespace FundooNotes.Controllers
             {
                 //addnotes api
                 string message = this.notesManager.AddNotes(notesModel);
-                if(message.Equals("Added Notes Successfully"))
+                if (message.Equals("Added Notes Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
                 }
@@ -34,7 +36,7 @@ namespace FundooNotes.Controllers
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = message });
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
@@ -47,9 +49,9 @@ namespace FundooNotes.Controllers
             try
             {
                 var resMessage = this.notesManager.GetNotes(userId);
-                if (resMessage!=null)
+                if (resMessage != null)
                 {
-                    return this.Ok(new { Status = true, Message ="Notes returned successfully",Data=resMessage});
+                    return this.Ok(new { Status = true, Message = "Notes returned successfully", Data = resMessage });
                 }
                 else
                 {
@@ -69,18 +71,18 @@ namespace FundooNotes.Controllers
             try
             {
                 bool result = this.notesManager.TrashNotes(noteId);
-                if(result==true)
+                if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes Moved to trash successfully" });
                 }
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
-               }
+                }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-               return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
         [HttpPut]
@@ -198,12 +200,12 @@ namespace FundooNotes.Controllers
         [Route("api/UpdateNotes")]
         public IActionResult UpdateNotes([FromBody] UpdateModel updateModel)
         {
-            try 
+            try
             {
                 var res = this.notesManager.UpdateNotes(updateModel);
-                if(res!=null)
+                if (res != null)
                 {
-                    return this.Ok(new { Status = true, Message = "Upated notes successfully",Data=updateModel });
+                    return this.Ok(new { Status = true, Message = "Upated notes successfully", Data = updateModel });
                 }
                 else
                 {
@@ -217,12 +219,12 @@ namespace FundooNotes.Controllers
         }
         [HttpPut]
         [Route("api/ChangeColor")]
-        public IActionResult ChangeColor(int noteId,string color)
+        public IActionResult ChangeColor(int noteId, string color)
         {
             try
             {
                 var result = this.notesManager.ChangeColor(noteId, color);
-                if(result==true)
+                if (result == true)
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Color Changed successfully" });
                 }
@@ -239,18 +241,18 @@ namespace FundooNotes.Controllers
 
         [HttpPut]
         [Route("api/ChangeReminder")]
-        public IActionResult ChangeRemainder(int noteId,string remainder)
+        public IActionResult ChangeRemainder(int noteId, string remainder)
         {
             try
             {
                 string result = this.notesManager.ChangeRemainder(noteId, remainder);
-                if(result.Equals("Remainder Changed Successfully"))
+                if (result.Equals("Remainder Changed Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result});
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
@@ -266,7 +268,7 @@ namespace FundooNotes.Controllers
             try
             {
                 string result = this.notesManager.DeleteNotes(noteId);
-                if(result.Equals("Deleted Notes Successfully"))
+                if (result.Equals("Deleted Notes Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
@@ -274,6 +276,119 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        [HttpPut]
+        [Route("api/DeleteRemainder")]
+        public IActionResult DeleteRemainder(int noteId)
+        {
+            try
+            {
+                string result = this.notesManager.DeleteRemainder(noteId);
+                if (result.Equals("Deleted Remainder Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpDelete]
+        [Route("api/EmptyTrash")]
+
+        public IActionResult EmptyTrash(int userId)
+        {
+            try
+            {
+                string result = this.notesManager.EmptyTrash(userId);
+                if (result.Equals("Emptied Trash Successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("api/GetNotesFromRemainder")]
+        public IActionResult GetNotesFromRemainder(int userId)
+        {
+            try
+            {
+                var resMessage = this.notesManager.GetNotesFromRemainder(userId);
+                if (resMessage != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved Notes From Remainder Successfully", Data = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Remainder does not have notes" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/GetNotesFromArchive")]
+        public IActionResult GetNotesFromArchive(int userId)
+        {
+            try
+            {
+                var resMessage = this.notesManager.GetNotesFromArchive(userId);
+                if (resMessage != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved Notes From Archive Successfully", Data = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Archive does not have notes" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
+
+        [HttpGet]
+        [Route("api/GetNotesFromTrash")]
+        public IActionResult GetNotesFromTrash(int userId)
+        {
+            try
+            {
+                var resMessage = this.notesManager.GetNotesFromTrash(userId);
+                if (resMessage != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved Notes From Trash Successfully", Data = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Trash does not have notes" });
                 }
             }
             catch (Exception ex)

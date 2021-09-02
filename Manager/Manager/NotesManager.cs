@@ -154,6 +154,66 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string DeleteRemainder(int noteId)
+        {
+            try
+            {
+                return this.notesRepository.DeleteRemainder(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
 
+        public string EmptyTrash(int noteId)
+        {
+            try
+            {
+                return this.notesRepository.EmptyTrash(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public List<NotesModel> GetNotesFromRemainder(int userId)
+        {
+            try
+            {
+                return this.notesRepository.GetNotesFromRemainder(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public List<NotesModel> GetNotesFromArchive(int userId)
+        {
+            try
+            {
+                return this.notesRepository.GetNotesFromArchive(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public List<NotesModel> GetNotesFromTrash(int userId)
+        {
+            try
+            {
+                return this.notesRepository.GetNotesFromTrash(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
