@@ -22,6 +22,6 @@ namespace Manager.Interface
         bool ChangeColor(int noteId, string color);
         string ChangeRemainder(int noteId, string remainder);
 
-        string DeleteNotes(int noteId, int userId);
+        string DeleteNotes(int noteId);
     }
 }

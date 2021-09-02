@@ -235,18 +235,18 @@ namespace Repository.Repository
             }
         }
 
-        public string DeleteNotes(int noteId,int userId)
+        public string DeleteNotes(int noteId)
         {
             try
             {
-                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.UserId == userId && x.Trash==true).FirstOrDefault();
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId  && x.Trash==true).FirstOrDefault();
                 if(checkId!=null)
                 {
                     this.userContext.Notes.Remove(checkId);
                     this.userContext.SaveChanges();
                     return "Deleted Notes Successfully";
                 }
-                return "Note Id Or User Id Does not Exist!!!";
+                return "Note Id  Does not Exist!!!";
             }
             catch(Exception ex)
             {

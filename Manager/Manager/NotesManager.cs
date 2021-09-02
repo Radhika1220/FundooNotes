@@ -143,11 +143,11 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public string DeleteNotes(int noteId, int userId)
+        public string DeleteNotes(int noteId)
         {
             try
             {
-                return this.notesRepository.DeleteNotes(noteId, userId);
+                return this.notesRepository.DeleteNotes(noteId);
             }
             catch (Exception ex)
             {
