@@ -165,5 +165,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public string EmptyTrash(int noteId)
+        {
+            try
+            {
+                return this.notesRepository.EmptyTrash(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

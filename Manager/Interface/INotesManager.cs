@@ -25,5 +25,7 @@ namespace Manager.Interface
         string DeleteNotes(int noteId);
 
         string DeleteRemainder(int noteId);
+
+        string EmptyTrash(int noteId);
     }
 }

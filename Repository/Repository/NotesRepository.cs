@@ -39,7 +39,7 @@ namespace Repository.Repository
             try
             {
                 var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId &&x.Trash==false && x.Archieve==false).ToList();
-                if (checkUserId != null)
+                if (checkUserId.Count>0)
                 {
                     return checkUserId;
                 }
@@ -267,6 +267,25 @@ namespace Repository.Repository
                     return "Deleted Remainder Successfully";
                 }
                 return "NoteId does not exist OR Trash is in True state";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string EmptyTrash(int userId)
+        {
+            try
+            {
+                var checkUserId = this.userContext.Notes.Where(x => x.UserId == userId && x.Trash == true).ToList();
+                if(checkUserId.Count!=0)
+                {
+                    this.userContext.Notes.RemoveRange(checkUserId);
+                    this.userContext.SaveChanges();
+                    return "Emptied Trash Successfully";
+                }
+                return "Not Emptied";
             }
             catch (Exception ex)
             {
