@@ -261,11 +261,11 @@ namespace FundooNotes.Controllers
         [HttpDelete]
         [Route("api/DeleteNotes")]
 
-        public IActionResult DeleteNotes(int noteId,int userId)
+        public IActionResult DeleteNotes(int noteId)
         {
             try
             {
-                string result = this.notesManager.DeleteNotes(noteId, userId);
+                string result = this.notesManager.DeleteNotes(noteId);
                 if(result.Equals("Deleted Notes Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
