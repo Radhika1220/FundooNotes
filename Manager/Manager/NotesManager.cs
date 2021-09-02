@@ -203,5 +203,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<NotesModel> GetNotesFromTrash(int userId)
+        {
+            try
+            {
+                return this.notesRepository.GetNotesFromTrash(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

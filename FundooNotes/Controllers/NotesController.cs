@@ -372,5 +372,29 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+
+
+        [HttpGet]
+        [Route("api/GetNotesFromTrash")]
+        public IActionResult GetNotesFromTrash(int userId)
+        {
+            try
+            {
+                var resMessage = this.notesManager.GetNotesFromTrash(userId);
+                if (resMessage != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved Notes From Trash Successfully", Data = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Trash does not have notes" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

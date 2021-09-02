@@ -30,6 +30,8 @@ namespace Manager.Interface
 
         List<NotesModel> GetNotesFromRemainder(int userId);
 
+        List<NotesModel> GetNotesFromTrash(int userId);
+
         List<NotesModel> GetNotesFromArchive(int userId);
     }
 }

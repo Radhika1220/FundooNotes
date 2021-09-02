@@ -332,5 +332,22 @@ namespace Repository.Repository
             }
         }
 
+        public List<NotesModel> GetNotesFromTrash(int UserId)
+        {
+            try
+            {
+                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == true).ToList();
+                if (checkUserId.Count != 0)
+                {
+                    return checkUserId;
+                }
+                return checkUserId;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

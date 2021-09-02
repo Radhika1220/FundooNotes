@@ -34,5 +34,10 @@ namespace Repository.Interface
 
 
         List<NotesModel> GetNotesFromArchive(int UserId);
+
+
+        List<NotesModel> GetNotesFromTrash(int userId);
+
+ 
     }
 }
