@@ -239,7 +239,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.UserId == userId).FirstOrDefault();
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.UserId == userId && x.Trash==true).FirstOrDefault();
                 if(checkId!=null)
                 {
                     this.userContext.Notes.Remove(checkId);
