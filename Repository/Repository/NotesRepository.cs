@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Repository.Repository
 {
-    public class NotesRepository:INotesRepository
+    public class NotesRepository : INotesRepository
     {
         private readonly UserContext userContext;
 
@@ -20,8 +20,8 @@ namespace Repository.Repository
         {
             try
             {
-               //if notes data is not null update the data in database
-                if (notesData != null &&(notesData.Title!=null || notesData.Description!=null || notesData.Remainder!=null || notesData.Image!=null))
+                //if notes data is not null update the data in database
+                if (notesData != null && (notesData.Title != null || notesData.Description != null || notesData.Remainder != null || notesData.Image != null))
                 {
                     this.userContext.Notes.Add(notesData);
                     this.userContext.SaveChanges();
@@ -38,15 +38,15 @@ namespace Repository.Repository
         {
             try
             {
-                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId &&x.Trash==false && x.Archieve==false).ToList();
-                if (checkUserId.Count>0)
+                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false && x.Archieve == false).ToList();
+                if (checkUserId.Count > 0)
                 {
                     return checkUserId;
                 }
                 return checkUserId;
-             
+
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -57,7 +57,7 @@ namespace Repository.Repository
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
-                if(checkNotesId != null)
+                if (checkNotesId != null)
                 {
                     checkNotesId.Trash = true;
                     this.userContext.Notes.Update(checkNotesId);
@@ -66,7 +66,7 @@ namespace Repository.Repository
                 }
                 return false;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -96,7 +96,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash==false).SingleOrDefault();
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
                     checkNotesId.Archieve = true;
@@ -116,7 +116,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId &&x.Trash==false).SingleOrDefault();
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
                     checkNotesId.Archieve = false;
@@ -178,7 +178,7 @@ namespace Repository.Repository
             try
             {
                 var checkId = this.userContext.Notes.Where(x => x.NoteId == updateData.NoteId && x.Trash == false).SingleOrDefault();
-                if(checkId!=null)
+                if (checkId != null)
                 {
                     checkId.Title = updateData.Title;
                     checkId.Description = updateData.Description;
@@ -188,18 +188,18 @@ namespace Repository.Repository
                 }
                 return checkId;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public bool ChangeColor(int noteId,string color)
+        public bool ChangeColor(int noteId, string color)
         {
             try
             {
                 var checkNoteId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.Trash == false).FirstOrDefault();
-                if(checkNoteId!=null)
+                if (checkNoteId != null)
                 {
                     checkNoteId.Color = color;
                     this.userContext.Notes.Update(checkNoteId);
@@ -215,7 +215,7 @@ namespace Repository.Repository
         }
 
 
-        public string ChangeRemainder(int noteId,string remainder)
+        public string ChangeRemainder(int noteId, string remainder)
         {
             try
             {
@@ -239,8 +239,8 @@ namespace Repository.Repository
         {
             try
             {
-                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId  && x.Trash==true).FirstOrDefault();
-                if(checkId!=null)
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.Trash == true).FirstOrDefault();
+                if (checkId != null)
                 {
                     this.userContext.Notes.Remove(checkId);
                     this.userContext.SaveChanges();
@@ -248,7 +248,7 @@ namespace Repository.Repository
                 }
                 return "Note Id  Does not Exist!!!";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -259,7 +259,7 @@ namespace Repository.Repository
             try
             {
                 var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.Trash == false).FirstOrDefault();
-                if(checkId!=null)
+                if (checkId != null)
                 {
                     checkId.Remainder = null;
                     this.userContext.Notes.Update(checkId);
@@ -279,7 +279,7 @@ namespace Repository.Repository
             try
             {
                 var checkUserId = this.userContext.Notes.Where(x => x.UserId == userId && x.Trash == true).ToList();
-                if(checkUserId.Count!=0)
+                if (checkUserId.Count != 0)
                 {
                     this.userContext.Notes.RemoveRange(checkUserId);
                     this.userContext.SaveChanges();
@@ -299,8 +299,27 @@ namespace Repository.Repository
         {
             try
             {
-                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false &&x.Remainder!=null).ToList();
+                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false && x.Remainder != null).ToList();
                 if (checkUserId.Count > 0)
+                {
+                    return checkUserId;
+                }
+                return checkUserId;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public List<NotesModel> GetNotesFromArchive(int UserId)
+        {
+            try
+            {
+                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false && x.Archieve==true).ToList();
+                if (checkUserId.Count != 0)
                 {
                     return checkUserId;
                 }

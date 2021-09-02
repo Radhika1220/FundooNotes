@@ -190,5 +190,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public List<NotesModel> GetNotesFromArchive(int userId)
+        {
+            try
+            {
+                return this.notesRepository.GetNotesFromArchive(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

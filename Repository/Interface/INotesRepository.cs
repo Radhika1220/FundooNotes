@@ -31,5 +31,8 @@ namespace Repository.Interface
         string EmptyTrash(int userId);
 
         List<NotesModel> GetNotesFromRemainder(int UserId);
+
+
+        List<NotesModel> GetNotesFromArchive(int UserId);
     }
 }

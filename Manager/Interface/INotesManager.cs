@@ -29,5 +29,7 @@ namespace Manager.Interface
         string EmptyTrash(int noteId);
 
         List<NotesModel> GetNotesFromRemainder(int userId);
+
+        List<NotesModel> GetNotesFromArchive(int userId);
     }
 }

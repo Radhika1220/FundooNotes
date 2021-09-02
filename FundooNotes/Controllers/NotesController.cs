@@ -349,5 +349,28 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+
+        [HttpGet]
+        [Route("api/GetNotesFromArchive")]
+        public IActionResult GetNotesFromArchive(int userId)
+        {
+            try
+            {
+                var resMessage = this.notesManager.GetNotesFromArchive(userId);
+                if (resMessage != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Retrieved Notes From Archive Successfully", Data = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Archive does not have notes" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
