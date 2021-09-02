@@ -29,5 +29,7 @@ namespace Repository.Interface
         string DeleteRemainder(int noteId);
 
         string EmptyTrash(int userId);
+
+        List<NotesModel> GetNotesFromRemainder(int UserId);
     }
 }

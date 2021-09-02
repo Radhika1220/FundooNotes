@@ -292,5 +292,26 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+
+
+        public List<NotesModel> GetNotesFromRemainder(int UserId)
+        {
+            try
+            {
+                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false &&x.Remainder!=null).ToList();
+                if (checkUserId.Count > 0)
+                {
+                    return checkUserId;
+                }
+                return checkUserId;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }

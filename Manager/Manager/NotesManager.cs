@@ -177,5 +177,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public List<NotesModel> GetNotesFromRemainder(int userId)
+        {
+            try
+            {
+                return this.notesRepository.GetNotesFromRemainder(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
