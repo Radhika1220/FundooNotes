@@ -1,4 +1,5 @@
 ﻿using Manager.Interface;
+
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
+ 
     public class NotesController : ControllerBase
     {
         private readonly INotesManager notesManager;

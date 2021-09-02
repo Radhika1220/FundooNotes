@@ -21,7 +21,7 @@ namespace Repository.Repository
             try
             {
                //if notes data is not null update the data in database
-                if (notesData != null)
+                if (notesData != null &&(notesData.Title!=null || notesData.Description!=null || notesData.Remainder!=null || notesData.Image!=null))
                 {
                     this.userContext.Notes.Add(notesData);
                     this.userContext.SaveChanges();
@@ -96,7 +96,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash==false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
                     checkNotesId.Archieve = true;
@@ -137,7 +137,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
                     checkNotesId.Pin = true;
@@ -157,7 +157,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
+                var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
                     checkNotesId.Pin = false;
@@ -177,7 +177,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkId = this.userContext.Notes.Where(x => x.NoteId == updateData.NoteId && x.UserId == updateData.UserId).SingleOrDefault();
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == updateData.NoteId && x.Trash == false).SingleOrDefault();
                 if(checkId!=null)
                 {
                     checkId.Title = updateData.Title;
@@ -198,7 +198,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkNoteId = this.userContext.Notes.Where(x => x.NoteId == noteId).FirstOrDefault();
+                var checkNoteId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.Trash == false).FirstOrDefault();
                 if(checkNoteId!=null)
                 {
                     checkNoteId.Color = color;
@@ -219,7 +219,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId).FirstOrDefault();
+                var checkId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.Trash == false).FirstOrDefault();
                 if (checkId != null)
                 {
                     checkId.Remainder = remainder;
