@@ -43,7 +43,7 @@ namespace Repository.Repository
                 {
                     return checkUserId;
                 }
-                return checkUserId;
+                return default;
 
             }
             catch (Exception ex)
@@ -52,19 +52,32 @@ namespace Repository.Repository
             }
         }
 
-        public bool TrashNotes(int notesId)
+        public string TrashNotes(int notesId)
         {
+            string mes;
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
                 if (checkNotesId != null)
                 {
+                    if (checkNotesId.Pin == true)
+                    {
+                        checkNotesId.Pin = false;
+                        mes = "Notes Unpinned and moved to trash";
+                    }
+                    else
+                    {
+                        mes = "Notes Moved to trash Successfully";
+                    }
                     checkNotesId.Trash = true;
+                    checkNotesId.Remainder = null;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();
-                    return true;
+
+                    return mes;
                 }
-                return false;
+                    return "NoteId does not exist";
+                
             }
             catch (Exception ex)
             {
@@ -304,7 +317,7 @@ namespace Repository.Repository
                 {
                     return checkUserId;
                 }
-                return checkUserId;
+                return default;
 
             }
             catch (Exception ex)
@@ -323,7 +336,7 @@ namespace Repository.Repository
                 {
                     return checkUserId;
                 }
-                return checkUserId;
+                return default;
 
             }
             catch (Exception ex)
@@ -341,7 +354,7 @@ namespace Repository.Repository
                 {
                     return checkUserId;
                 }
-                return checkUserId;
+                return default;
 
             }
             catch (Exception ex)

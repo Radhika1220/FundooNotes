@@ -51,12 +51,12 @@ namespace FundooNotes.Controllers
             _logger.LogInformation("API For Registration For Accessing Notes");
             try
             {
-                _logger.LogInformation(userData.FirstName + " " +userData.LastName + "Is trying to register");
+                _logger.LogInformation(userData.FirstName + " " +userData.LastName + " Is trying to register");
                 // sending data to manager
                 string resMessage= this.manager.Register(userData);
                 if (resMessage.Equals("Registration Successful"))
                 {
-                    _logger.LogInformation(userData.FirstName + "Is Registered Successfully");
+                    _logger.LogInformation(userData.FirstName + " Is Registered Successfully");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resMessage });
                 }
                 else
@@ -89,7 +89,7 @@ namespace FundooNotes.Controllers
                 string result = this.manager.Login(loginData.EmailId, loginData.Password);
                 if (!(result.Equals("login unsuccessful")))
                 {
-                    _logger.LogInformation(loginData.EmailId + "Logged Successfully");
+                    _logger.LogInformation(loginData.EmailId + " Logged Successfully");
                     string tokenString = this.manager.GenerateToken(loginData.EmailId);
                     return this.Ok(new { Status = true, Message = "Login Successful!!!",Data=tokenString, UserData= result.ToString()});
                 }
@@ -148,7 +148,7 @@ namespace FundooNotes.Controllers
             _logger.LogInformation("API For Reset Passoword");
             try
             {
-                _logger.LogInformation(resetPassword.EmailId + "Is trying to reset the password");
+                _logger.LogInformation(resetPassword.EmailId + " Is trying to reset the password");
                 bool result = this.manager.ResetPassword(resetPassword);
                 if (result == true)
                 {

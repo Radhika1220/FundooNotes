@@ -69,14 +69,14 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.notesManager.TrashNotes(noteId);
-                if (result == true)
+                string resultMessage = this.notesManager.TrashNotes(noteId);
+                if (resultMessage.Equals("Notes Unpinned and moved to trash") || resultMessage.Equals("Notes Moved to trash Successfully"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes Moved to trash successfully" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
                 }
             }
             catch (Exception ex)

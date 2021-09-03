@@ -38,7 +38,7 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public bool TrashNotes(int notesId)
+        public string TrashNotes(int notesId)
         {
             try
             {
