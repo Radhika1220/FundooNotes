@@ -112,14 +112,14 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.notesManager.ArchiveNotes(noteId);
-                if (result == true)
+                string result = this.notesManager.ArchiveNotes(noteId);
+                if (result.Equals("Notes unpinned and moved to Archived") || result.Equals("Notes Moved to Archived Successfully"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes Moved to Archive successfully" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
@@ -163,7 +163,7 @@ namespace FundooNotes.Controllers
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist OR Trash is in false state" });
                 }
             }
             catch (Exception ex)

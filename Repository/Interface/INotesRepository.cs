@@ -12,7 +12,7 @@ namespace Repository.Interface
 
         string TrashNotes(int notesId);
 
-       bool ArchiveNotes(int notesId);
+        string ArchiveNotes(int notesId);
 
        bool UnArchiveNotes(int notesId);
 

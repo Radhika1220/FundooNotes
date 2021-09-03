@@ -61,7 +61,7 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public bool ArchiveNotes(int notesId)
+        public string ArchiveNotes(int notesId)
         {
             try
             {

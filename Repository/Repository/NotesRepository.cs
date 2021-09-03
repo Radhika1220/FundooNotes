@@ -105,19 +105,29 @@ namespace Repository.Repository
             }
         }
 
-        public bool ArchiveNotes(int notesId)
+        public string ArchiveNotes(int notesId)
         {
+            string message;
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
+                    if (checkNotesId.Pin == true)
+                    {
+                        checkNotesId.Pin = false;
+                        message = "Notes unpinned and moved to Archived";
+                    }
+                    else
+                    {
+                        message = "Notes Moved to Archived Successfully";
+                    }
                     checkNotesId.Archieve = true;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();
-                    return true;
+                    return message;
                 }
-                return false;
+                return "Note Id does not exist";
             }
             catch (Exception ex)
             {
@@ -127,11 +137,13 @@ namespace Repository.Repository
 
         public bool UnArchiveNotes(int notesId)
         {
+            
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
+        
                     checkNotesId.Archieve = false;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();

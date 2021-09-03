@@ -10,7 +10,7 @@ namespace Manager.Interface
         string AddNotes(NotesModel notesModel);
         List<NotesModel> GetNotes(int userId);
         string TrashNotes(int notesId);
-        bool ArchiveNotes(int notesId);
+        string ArchiveNotes(int notesId);
 
        bool UnArchiveNotes(int notesId);
 
