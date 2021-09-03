@@ -1,5 +1,5 @@
 ﻿using Manager.Interface;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
-
+    [Authorize]
     public class NotesController : ControllerBase
     {
         private readonly INotesManager notesManager;
@@ -25,7 +25,6 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                //addnotes api
                 string message = this.notesManager.AddNotes(notesModel);
                 if (message.Equals("Added Notes Successfully"))
                 {
