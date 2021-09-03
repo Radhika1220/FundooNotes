@@ -15,7 +15,7 @@ namespace Manager.Interface
        bool UnArchiveNotes(int notesId);
 
         bool RestoreNotes(int notesId);
-        bool PinNotes(int notesId);
+        string PinNotes(int notesId);
         bool UnPinNotes(int notesId);
 
         NotesModel UpdateNotes(UpdateModel updateModel);

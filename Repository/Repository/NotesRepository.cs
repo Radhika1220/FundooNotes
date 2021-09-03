@@ -158,19 +158,29 @@ namespace Repository.Repository
         }
 
 
-        public bool PinNotes(int notesId)
+        public string PinNotes(int notesId)
         {
+            string message;
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
+                    if(checkNotesId.Archieve==true)
+                    {
+                        checkNotesId.Archieve = false;
+                        message = "Notes Unarchived and pinned";
+                    }
+                    else
+                    {
+                        message = "Pinned successfully";
+                    }
                     checkNotesId.Pin = true;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();
-                    return true;
+                    return message;
                 }
-                return false;
+                return "NoteId does not exist OR Trash is in false state";
             }
             catch (Exception ex)
             {

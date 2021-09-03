@@ -85,7 +85,7 @@ namespace Manager.Manager
             }
         }
 
-        public bool PinNotes(int notesId)
+        public string PinNotes(int notesId)
         {
             try
             {

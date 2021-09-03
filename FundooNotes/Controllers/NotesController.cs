@@ -156,14 +156,14 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.notesManager.PinNotes(noteId);
-                if (result == true)
+                string result = this.notesManager.PinNotes(noteId);
+                if (result.Equals("Notes Unarchived and pinned") || result.Equals("Pinned successfully"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Pinned successfully" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist OR Trash is in false state" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
