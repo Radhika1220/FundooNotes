@@ -10,15 +10,15 @@ namespace Repository.Interface
         string AddNotes(NotesModel notesData);
         List<NotesModel> GetNotes(int UserId);
 
-        bool TrashNotes(int notesId);
+        string TrashNotes(int notesId);
 
-       bool ArchiveNotes(int notesId);
+        string ArchiveNotes(int notesId);
 
        bool UnArchiveNotes(int notesId);
 
         bool RestoreNotes(int notesId);
 
-        bool PinNotes(int notesId);
+        string PinNotes(int notesId);
 
         bool UnPinNotes(int notesId);
 

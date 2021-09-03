@@ -9,13 +9,13 @@ namespace Manager.Interface
     {
         string AddNotes(NotesModel notesModel);
         List<NotesModel> GetNotes(int userId);
-        bool TrashNotes(int notesId);
-        bool ArchiveNotes(int notesId);
+        string TrashNotes(int notesId);
+        string ArchiveNotes(int notesId);
 
        bool UnArchiveNotes(int notesId);
 
         bool RestoreNotes(int notesId);
-        bool PinNotes(int notesId);
+        string PinNotes(int notesId);
         bool UnPinNotes(int notesId);
 
         NotesModel UpdateNotes(UpdateModel updateModel);

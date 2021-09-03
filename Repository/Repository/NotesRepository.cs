@@ -43,7 +43,7 @@ namespace Repository.Repository
                 {
                     return checkUserId;
                 }
-                return checkUserId;
+                return default;
 
             }
             catch (Exception ex)
@@ -52,19 +52,32 @@ namespace Repository.Repository
             }
         }
 
-        public bool TrashNotes(int notesId)
+        public string TrashNotes(int notesId)
         {
+            string mes;
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId).SingleOrDefault();
                 if (checkNotesId != null)
                 {
+                    if (checkNotesId.Pin == true)
+                    {
+                        checkNotesId.Pin = false;
+                        mes = "Notes Unpinned and moved to trash";
+                    }
+                    else
+                    {
+                        mes = "Notes Moved to trash Successfully";
+                    }
                     checkNotesId.Trash = true;
+                    checkNotesId.Remainder = null;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();
-                    return true;
+
+                    return mes;
                 }
-                return false;
+                    return "NoteId does not exist";
+                
             }
             catch (Exception ex)
             {
@@ -92,19 +105,29 @@ namespace Repository.Repository
             }
         }
 
-        public bool ArchiveNotes(int notesId)
+        public string ArchiveNotes(int notesId)
         {
+            string message;
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
+                    if (checkNotesId.Pin == true)
+                    {
+                        checkNotesId.Pin = false;
+                        message = "Notes unpinned and moved to Archived";
+                    }
+                    else
+                    {
+                        message = "Notes Moved to Archived Successfully";
+                    }
                     checkNotesId.Archieve = true;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();
-                    return true;
+                    return message;
                 }
-                return false;
+                return "Note Id does not exist";
             }
             catch (Exception ex)
             {
@@ -114,11 +137,13 @@ namespace Repository.Repository
 
         public bool UnArchiveNotes(int notesId)
         {
+            
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
+        
                     checkNotesId.Archieve = false;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();
@@ -133,19 +158,29 @@ namespace Repository.Repository
         }
 
 
-        public bool PinNotes(int notesId)
+        public string PinNotes(int notesId)
         {
+            string message;
             try
             {
                 var checkNotesId = this.userContext.Notes.Where(x => x.NoteId == notesId && x.Trash == false).SingleOrDefault();
                 if (checkNotesId != null)
                 {
+                    if(checkNotesId.Archieve==true)
+                    {
+                        checkNotesId.Archieve = false;
+                        message = "Notes Unarchived and pinned";
+                    }
+                    else
+                    {
+                        message = "Pinned successfully";
+                    }
                     checkNotesId.Pin = true;
                     this.userContext.Notes.Update(checkNotesId);
                     this.userContext.SaveChanges();
-                    return true;
+                    return message;
                 }
-                return false;
+                return "NoteId does not exist OR Trash is in false state";
             }
             catch (Exception ex)
             {
@@ -304,7 +339,7 @@ namespace Repository.Repository
                 {
                     return checkUserId;
                 }
-                return checkUserId;
+                return default;
 
             }
             catch (Exception ex)
@@ -323,7 +358,7 @@ namespace Repository.Repository
                 {
                     return checkUserId;
                 }
-                return checkUserId;
+                return default;
 
             }
             catch (Exception ex)
@@ -341,7 +376,7 @@ namespace Repository.Repository
                 {
                     return checkUserId;
                 }
-                return checkUserId;
+                return default;
 
             }
             catch (Exception ex)

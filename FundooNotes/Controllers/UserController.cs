@@ -15,6 +15,7 @@ namespace FundooNotes.Controllers
     using FundooNotes.Models;
     using Microsoft.AspNetCore.Mvc;
     using global::Models;
+    using Microsoft.Extensions.Logging;
 
     /// <summary>
     /// Controller class-controlling API
@@ -25,14 +26,16 @@ namespace FundooNotes.Controllers
         /// instance user manager 
         /// </summary>
         private readonly IUserManager manager;
+        private readonly ILogger<UserController> _logger;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class
         /// </summary>
         /// <param name="manager">manager parameter</param>
-        public UserController(IUserManager manager)
+        public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
+            _logger = logger;
         }
 
         /// <summary>
@@ -45,21 +48,26 @@ namespace FundooNotes.Controllers
 
         public IActionResult Register([FromBody] RegisterModel userData)
         {
+            _logger.LogInformation("API For Registration For Accessing Notes");
             try
             {
+                _logger.LogInformation(userData.FirstName + " " +userData.LastName + " Is trying to register");
                 // sending data to manager
-               string resMessage= this.manager.Register(userData);
+                string resMessage= this.manager.Register(userData);
                 if (resMessage.Equals("Registration Successful"))
                 {
+                    _logger.LogInformation(userData.FirstName + " Is Registered Successfully");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resMessage });
                 }
                 else
                 {
+                    _logger.LogWarning("Registration Unsuccesfull");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resMessage });
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError("Exception Occured While Register " + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -74,21 +82,26 @@ namespace FundooNotes.Controllers
 
         public IActionResult Login([FromBody] LoginModel loginData)
         {
+            _logger.LogInformation("API For Login to access the notes");
             try
             {
+                _logger.LogInformation(loginData.EmailId + " Is Logging ");
                 string result = this.manager.Login(loginData.EmailId, loginData.Password);
                 if (!(result.Equals("login unsuccessful")))
                 {
+                    _logger.LogInformation(loginData.EmailId + " Logged Successfully");
                     string tokenString = this.manager.GenerateToken(loginData.EmailId);
                     return this.Ok(new { Status = true, Message = "Login Successful!!!",Data=tokenString, UserData= result.ToString()});
                 }
                 else
                 {
+                    _logger.LogWarning("Login Unsuccessfull");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful!!!" });
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError("Exception Occured While log in " + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -102,8 +115,10 @@ namespace FundooNotes.Controllers
         [Route("api/forgetPassword")]
         public IActionResult ForgetPassword(string email)
         {
+            _logger.LogInformation("API For Forgot Password ");
             try
             {
+               
                 // Send user data to manager
                 bool result = this.manager.ForgetPassword(email);
                 if (result == true)
@@ -130,21 +145,26 @@ namespace FundooNotes.Controllers
         [Route("api/resetPassword")]
         public IActionResult ResetPassword([FromBody] ResetPasswordModel resetPassword)
         {
+            _logger.LogInformation("API For Reset Passoword");
             try
             {
+                _logger.LogInformation(resetPassword.EmailId + " Is trying to reset the password");
                 bool result = this.manager.ResetPassword(resetPassword);
                 if (result == true)
                 {
+                    _logger.LogInformation(resetPassword.EmailId + " Reseted Password Successfully");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reseted password successfully" });
                 }
                 else
                 {
+                    _logger.LogWarning("Not Reseted Passowrd Successfully");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "not reseted password correctly" });
                 }
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                _logger.LogError("Exception Occured While in Reset the password " + ex.Message);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
     }

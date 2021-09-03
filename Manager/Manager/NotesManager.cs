@@ -38,7 +38,7 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public bool TrashNotes(int notesId)
+        public string TrashNotes(int notesId)
         {
             try
             {
@@ -61,7 +61,7 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
-        public bool ArchiveNotes(int notesId)
+        public string ArchiveNotes(int notesId)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace Manager.Manager
             }
         }
 
-        public bool PinNotes(int notesId)
+        public string PinNotes(int notesId)
         {
             try
             {

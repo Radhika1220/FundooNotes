@@ -1,5 +1,5 @@
 ﻿using Manager.Interface;
-
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FundooNotes.Controllers
 {
-
+    [Authorize]
     public class NotesController : ControllerBase
     {
         private readonly INotesManager notesManager;
@@ -25,7 +25,6 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                //addnotes api
                 string message = this.notesManager.AddNotes(notesModel);
                 if (message.Equals("Added Notes Successfully"))
                 {
@@ -70,14 +69,14 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.notesManager.TrashNotes(noteId);
-                if (result == true)
+                string resultMessage = this.notesManager.TrashNotes(noteId);
+                if (resultMessage.Equals("Notes Unpinned and moved to trash") || resultMessage.Equals("Notes Moved to trash Successfully"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes Moved to trash successfully" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resultMessage });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resultMessage });
                 }
             }
             catch (Exception ex)
@@ -113,14 +112,14 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.notesManager.ArchiveNotes(noteId);
-                if (result == true)
+                string result = this.notesManager.ArchiveNotes(noteId);
+                if (result.Equals("Notes unpinned and moved to Archived") || result.Equals("Notes Moved to Archived Successfully"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Notes Moved to Archive successfully" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
@@ -157,14 +156,14 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                bool result = this.notesManager.PinNotes(noteId);
-                if (result == true)
+                string result = this.notesManager.PinNotes(noteId);
+                if (result.Equals("Notes Unarchived and pinned") || result.Equals("Pinned successfully"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Pinned successfully" });
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "NoteId does not exist" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
