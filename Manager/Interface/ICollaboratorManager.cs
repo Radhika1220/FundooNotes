@@ -10,5 +10,7 @@ namespace Manager.Interface
         string AddCollaborator(CollaboratorModel collaboratorModel);
 
         string DeleteCollaborator(int collaboratorId);
+
+        List<CollaboratorModel> GetCollaborator(int noteId);
     }
 }

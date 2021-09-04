@@ -45,11 +45,11 @@ namespace Repository.Repository
             }
         }
 
-        public string DeleteCollaborator(int collaboratorId)
+        public string DeleteCollaborator(int noteId)
         {
             try
             {
-                var checkId = this.userContext.Collaborators.Where(a => a.CId == collaboratorId).SingleOrDefault();
+                var checkId = this.userContext.Collaborators.Where(a => a.NoteId == noteId).SingleOrDefault();
                 if (checkId != null)
                 {
                     this.userContext.Collaborators.Remove(checkId);
@@ -65,5 +65,22 @@ namespace Repository.Repository
             }
         }
 
+        public List<CollaboratorModel> GetCollaborator(int noteId)
+        {
+            try
+            {
+                var checkCollaboratorId = this.userContext.Collaborators.Where(x => x.NoteId == noteId).ToList();
+                if (checkCollaboratorId.Count > 0)
+                {
+                    return checkCollaboratorId;
+                }
+                return default;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
