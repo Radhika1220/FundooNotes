@@ -151,8 +151,30 @@ namespace FundooNotes.Controllers
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
-
-
         }
+
+
+        [HttpPost]
+        [Route("api/EditLabel")]
+        public IActionResult EditLabel([FromBody] LabelModel labelModel)
+        {
+            try
+            {
+                string message = this.labelManager.EditLabel(labelModel);
+                if (message.Equals("Updated successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
     }
 }

@@ -69,7 +69,7 @@ namespace Repository.Repository
             try
             {
                 var checkLabelId = this.userContext.Label.Find(labelId);
-                if(checkLabelId!=null)
+                if (checkLabelId != null)
                 {
                     this.userContext.Label.Remove(checkLabelId);
                     this.userContext.SaveChanges();
@@ -77,13 +77,13 @@ namespace Repository.Repository
                 }
                 return "label not removed";
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public string DeleteLabel(string labelName,int userId)
+        public string DeleteLabel(string labelName, int userId)
         {
             try
             {
@@ -92,7 +92,7 @@ namespace Repository.Repository
                 {
                     this.userContext.Label.RemoveRange(exists);
                     this.userContext.SaveChanges();
-                    return "Deleted Label Successfully" ;
+                    return "Deleted Label Successfully";
                 }
                 return "no Label exist";
             }
@@ -106,7 +106,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkuserId = this.userContext.Label.Where(a=>a.UserId==userId && a.NoteId==null).ToList();
+                var checkuserId = this.userContext.Label.Where(a => a.UserId == userId && a.NoteId == null).ToList();
                 if (checkuserId.Count > 0)
                 {
                     return checkuserId;
@@ -121,11 +121,11 @@ namespace Repository.Repository
         }
 
 
-        public List<LabelModel> GetLabelByNotes(int noteId,int userId)
+        public List<LabelModel> GetLabelByNotes(int noteId, int userId)
         {
             try
             {
-                var checkNoteId = this.userContext.Label.Where(a => a.NoteId==noteId && a.UserId==userId).ToList();
+                var checkNoteId = this.userContext.Label.Where(a => a.NoteId == noteId && a.UserId == userId).ToList();
                 if (checkNoteId.Count > 0)
                 {
                     return checkNoteId;
@@ -138,6 +138,32 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public string EditLabel(LabelModel labelModel)
+        {
+            try
+            {
+                var oldLabeldata = this.userContext.Label.Where(x => x.LabelId == labelModel.LabelId).SingleOrDefault();
+                var updateList = this.userContext.Label.Where(x => x.LabelName.Equals(oldLabeldata.LabelName) && x.UserId == labelModel.UserId).ToList();
+                if (updateList.Count > 0)
+                {
+                    foreach (var data in updateList)
+                    {
+                        data.LabelName = labelModel.LabelName;
+
+                    }
+                    this.userContext.Label.UpdateRange(updateList);
+                    this.userContext.SaveChanges();
+                    return "Updated successfully";
+                }
+                return "Not updated!! ";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+
+        }
     }
-    }
+}
 
