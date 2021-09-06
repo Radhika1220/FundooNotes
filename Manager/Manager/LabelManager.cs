@@ -68,11 +68,24 @@ namespace Manager.Manager
             }
         }
 
-        public List<LabelModel> GetLabel(int userId)
+        public List<LabelModel> GetAllLabels(int userId)
         {
             try
             {
-                return this.labelRepository.GetLabel(userId);
+                return this.labelRepository.GetAllLabels(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public List<LabelModel> GetLabelByNotes(int noteId,int userId)
+        {
+            try
+            {
+                return this.labelRepository.GetLabelByNotes(noteId,userId);
             }
             catch (Exception ex)
             {

@@ -109,19 +109,42 @@ namespace FundooNotes.Controllers
         }
 
         [HttpGet]
-        [Route("api/GetLabel")]
-        public IActionResult GetLabel(int userId)
+        [Route("api/GetAllLabels")]
+        public IActionResult GetAllLabels(int userId)
         {
             try
             {
-                var resMessage = this.labelManager.GetLabel(userId);
+                var resMessage = this.labelManager.GetAllLabels(userId);
                 if (resMessage != null)
                 {
                     return this.Ok(new { Status = true, Message = "Label returned successfully", Data = resMessage });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "UserId does not exist" });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "label does not exist" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
+        [HttpGet]
+        [Route("api/GetLabelByNotes")]
+        public IActionResult GetLabelByNotes(int noteId,int userId)
+        {
+            try
+            {
+                var resMessage = this.labelManager.GetLabelByNotes(noteId,userId);
+                if (resMessage != null)
+                {
+                    return this.Ok(new { Status = true, Message = "Label returned successfully", Data = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "label does not exist" });
                 }
             }
             catch (Exception ex)
