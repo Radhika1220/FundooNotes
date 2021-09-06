@@ -1,5 +1,6 @@
 ﻿using Manager.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -394,6 +395,13 @@ namespace FundooNotes.Controllers
             {
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
+        }
+
+        [HttpPost]
+        [Route("api/AddImage")]
+        public IActionResult UploadImage(int noteId,IFormFile image)
+        {
+            return this.Ok();
         }
     }
 }

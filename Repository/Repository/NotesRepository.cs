@@ -38,13 +38,15 @@ namespace Repository.Repository
         {
             try
             {
-                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false && x.Archieve == false).ToList();
-                if (checkUserId.Count > 0)
-                {
-                    return checkUserId;
-                }
-                return default;
-
+                var emailId = this.userContext.Users.Where(a => a.UserId == UserId).Select(x => x.Email).SingleOrDefault();
+                var checkNotes = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false && x.Archieve == false).ToList();
+                var collaboratorNotes = (from notes in this.userContext.Notes
+                                         join collaborator in this.userContext.Collaborators
+                                         on notes.NoteId equals collaborator.NoteId
+                                         where collaborator.CEmailId.Equals(emailId)
+                                         select notes).ToList();
+              checkNotes.AddRange(collaboratorNotes);
+              return checkNotes;
             }
             catch (Exception ex)
             {
