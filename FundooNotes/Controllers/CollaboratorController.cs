@@ -1,21 +1,46 @@
-﻿using Manager.Interface;
-using Microsoft.AspNetCore.Mvc;
-using Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CollaboratorController.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Radhika"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace FundooNotes.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using Manager.Interface;
+    using Microsoft.AspNetCore.Mvc;
+    using global::Models;
+    using Microsoft.AspNetCore.Authorization;
+
+    /// <summary>
+    /// Collaborator class
+    /// </summary>
+    [Authorize]
     public class CollaboratorController : ControllerBase
     {
+        /// <summary>
+        /// Instance for collaborator manager
+        /// </summary>
         private readonly ICollaboratorManager collaboratorManager;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CollaboratorController"/> class
+        /// </summary>
+        /// <param name="collaboratorManager">Collaborator Manager</param>
         public CollaboratorController(ICollaboratorManager collaboratorManager)
         {
             this.collaboratorManager = collaboratorManager;
         }
+
+        /// <summary>
+        /// Add Collaborator API
+        /// </summary>
+        /// <param name="collaboratorModel">Collaborator Model</param>
+        /// <returns>Returns a action result</returns>
         [HttpPost]
         [Route("api/AddCollaborator")]
         public IActionResult AddCollaborator([FromBody] CollaboratorModel collaboratorModel)
@@ -37,8 +62,12 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
-
-
+        
+        /// <summary>
+        /// Delete Collaborator API
+        /// </summary>
+        /// <param name="collaboratorId">Collaborator id</param>
+        /// <returns>IAction result</returns>
         [HttpDelete]
         [Route("api/DeleteCollaborator")]
         public IActionResult DeleteCollaborator(int collaboratorId)
@@ -61,7 +90,11 @@ namespace FundooNotes.Controllers
             }
         }
 
-
+        /// <summary>
+        /// Get Collaborator API
+        /// </summary>
+        /// <param name="noteId">passing a note id</param>
+        /// <returns>returns a IAction result</returns>
         [HttpGet]
         [Route("api/GetCollaborator")]
 

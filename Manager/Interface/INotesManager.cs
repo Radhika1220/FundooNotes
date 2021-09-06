@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.AspNetCore.Http;
+using Models;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -33,5 +34,9 @@ namespace Manager.Interface
         List<NotesModel> GetNotesFromTrash(int userId);
 
         List<NotesModel> GetNotesFromArchive(int userId);
+
+        string UploadImage(int noteId, IFormFile image);
+
+        string RemoveImage(int noteId);
     }
 }

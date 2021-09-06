@@ -1,4 +1,8 @@
-﻿using Models;
+﻿using CloudinaryDotNet;
+using CloudinaryDotNet.Actions;
+using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Models;
 using Repository.Context;
 using Repository.Interface;
 using System;
@@ -11,10 +15,12 @@ namespace Repository.Repository
     public class NotesRepository : INotesRepository
     {
         private readonly UserContext userContext;
+        private readonly IConfiguration configuration;
 
-        public NotesRepository(UserContext userContext)
+        public NotesRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
+            this.configuration = configuration;
         }
         public string AddNotes(NotesModel notesData)
         {
@@ -38,13 +44,15 @@ namespace Repository.Repository
         {
             try
             {
-                var checkUserId = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false && x.Archieve == false).ToList();
-                if (checkUserId.Count > 0)
-                {
-                    return checkUserId;
-                }
-                return default;
-
+                var emailId = this.userContext.Users.Where(a => a.UserId == UserId).Select(x => x.Email).SingleOrDefault();
+                var checkNotes = this.userContext.Notes.Where(x => x.UserId == UserId && x.Trash == false && x.Archieve == false).ToList();
+                var collaboratorNotes = (from notes in this.userContext.Notes
+                                         join collaborator in this.userContext.Collaborators
+                                         on notes.NoteId equals collaborator.NoteId
+                                         where collaborator.CEmailId.Equals(emailId)
+                                         select notes).ToList();
+              checkNotes.AddRange(collaboratorNotes);
+              return checkNotes;
             }
             catch (Exception ex)
             {
@@ -380,6 +388,55 @@ namespace Repository.Repository
 
             }
             catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string UploadImage(int noteId,IFormFile image)
+        {
+            try
+            {
+                Account account = new Account(this.configuration.GetValue<string>("CloudinaryAccount:CloudName"), this.configuration.GetValue<string>("CloudinaryAccount:ApiKey"), this.configuration.GetValue<string>("CloudinaryAccount:ApiSecret"));
+                Cloudinary cloudinary = new Cloudinary(account);
+                var uploadParams = new ImageUploadParams()
+                {
+                    File = new FileDescription(image.FileName, image.OpenReadStream())
+                };
+                var uploadResult = cloudinary.Upload(uploadParams);
+                string res = uploadResult.Url.AbsoluteUri.ToString();
+
+                var checkNoteId = this.userContext.Notes.Where(x => x.NoteId == noteId && x.Trash == false).SingleOrDefault();
+                if (checkNoteId != null)
+                {
+                    checkNoteId.Image = res;
+                    this.userContext.Notes.Update(checkNoteId);
+                    this.userContext.SaveChanges();
+                    return "Image Uploaded Succesfully";
+                }
+                return "Not Uploaded";
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }  
+
+        public string RemoveImage(int noteId)
+        {
+            try
+            {
+                var checkNoteId = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if(checkNoteId!=null)
+                {
+                    checkNoteId.Image = null;
+                    this.userContext.Notes.Update(checkNoteId);
+                    this.userContext.SaveChanges();
+                    return "Image Removed Successfully";
+                }
+                return "Image can't be removed";
+            }
+            catch(Exception ex)
             {
                 throw new Exception(ex.Message);
             }

@@ -1,5 +1,6 @@
 ﻿using Manager.Interface;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using System;
@@ -388,6 +389,51 @@ namespace FundooNotes.Controllers
                 else
                 {
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Trash does not have notes" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpPost]
+        [Route("api/UploadImage")]
+        public IActionResult UploadImage(int noteId,IFormFile image)
+        {
+            try
+            {
+                string resMessage = this.notesManager.UploadImage(noteId, image);
+                if (resMessage.Equals("Image Uploaded Succesfully"))
+                {
+                    return this.Ok(new { Status = true, Message = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+
+        [HttpPut]
+        [Route("api/RemoveImage")]
+        public IActionResult RemoveImage(int noteId)
+        {
+            try
+            {
+                string resMessage = this.notesManager.RemoveImage(noteId);
+                if (resMessage.Equals("Image Removed Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resMessage });
                 }
             }
             catch (Exception ex)

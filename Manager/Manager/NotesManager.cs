@@ -1,4 +1,5 @@
 ﻿using Manager.Interface;
+using Microsoft.AspNetCore.Http;
 using Models;
 using Repository.Interface;
 using System;
@@ -209,6 +210,31 @@ namespace Manager.Manager
             try
             {
                 return this.notesRepository.GetNotesFromTrash(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public string UploadImage(int noteId,IFormFile image)
+        {
+            try
+            {
+                return this.notesRepository.UploadImage(noteId,image);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public string RemoveImage(int noteId)
+        {
+            try
+            {
+                return this.notesRepository.RemoveImage(noteId);
             }
             catch (Exception ex)
             {
