@@ -22,7 +22,7 @@ namespace Repository.Repository
         {
             try
             {
-                var checkLabelName = this.userContext.Label.Where(a => a.LabelName.Contains(labelModel.LabelName)).SingleOrDefault();
+                var checkLabelName = this.userContext.Label.Where(a => a.LabelName.Equals(labelModel.LabelName)).SingleOrDefault();
                 if (checkLabelName == null)
                 {
                     this.userContext.Label.Add(labelModel);
@@ -36,5 +36,8 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+
+        //public string 
     }
 }
