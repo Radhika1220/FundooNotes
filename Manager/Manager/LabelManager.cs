@@ -67,5 +67,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<LabelModel> GetLabel(int userId)
+        {
+            try
+            {
+                return this.labelRepository.GetLabel(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

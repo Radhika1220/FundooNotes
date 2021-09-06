@@ -101,6 +101,24 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<LabelModel> GetLabel (int userId)
+        {
+            try
+            {
+                var checkuserId = this.userContext.Label.Where(a=>a.UserId==userId).ToList();
+                if (checkuserId.Count > 0)
+                {
+                    return checkuserId;
+                }
+                return default;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
     }
 
