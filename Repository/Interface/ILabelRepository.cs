@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Repository.Interface
 {
-    interface ILabelRepository
+    public interface ILabelRepository
     {
+        string CreateLabel(LabelModel labelModel);
     }
 }

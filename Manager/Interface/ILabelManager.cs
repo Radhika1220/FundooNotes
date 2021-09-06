@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Models;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Manager.Interface
 {
-    interface ILabelManager
+    public interface ILabelManager
     {
+        string CreateLabel(LabelModel labelModel);
     }
 }
