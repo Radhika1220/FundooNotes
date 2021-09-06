@@ -19,5 +19,7 @@ namespace Manager.Interface
         List<LabelModel> GetAllLabels(int userId);
 
         List<LabelModel> GetLabelByNotes(int noteId,int userId);
+
+        string EditLabel(LabelModel labelModel);
     }
 }

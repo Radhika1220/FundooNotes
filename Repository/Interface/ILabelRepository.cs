@@ -19,5 +19,7 @@ namespace Repository.Interface
 
 
         List<LabelModel> GetLabelByNotes(int noteId,int userId);
+
+        string EditLabel(LabelModel labelModel);
     }
 }
