@@ -26,5 +26,7 @@ namespace Manager.Interface
         string DeleteCollaborator(int collaboratorId);
 
         List<CollaboratorModel> GetCollaborator(int noteId);
+
+       
     }
 }

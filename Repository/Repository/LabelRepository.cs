@@ -102,14 +102,33 @@ namespace Repository.Repository
             }
         }
 
-        public List<LabelModel> GetLabel (int userId)
+        public List<LabelModel> GetAllLabels(int userId)
         {
             try
             {
-                var checkuserId = this.userContext.Label.Where(a=>a.UserId==userId).ToList();
+                var checkuserId = this.userContext.Label.Where(a=>a.UserId==userId && a.NoteId==null).ToList();
                 if (checkuserId.Count > 0)
                 {
                     return checkuserId;
+                }
+                return default;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+
+        public List<LabelModel> GetLabelByNotes(int noteId,int userId)
+        {
+            try
+            {
+                var checkNoteId = this.userContext.Label.Where(a => a.NoteId==noteId && a.UserId==userId).ToList();
+                if (checkNoteId.Count > 0)
+                {
+                    return checkNoteId;
                 }
                 return default;
 
