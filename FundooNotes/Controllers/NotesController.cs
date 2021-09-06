@@ -398,10 +398,25 @@ namespace FundooNotes.Controllers
         }
 
         [HttpPost]
-        [Route("api/AddImage")]
+        [Route("api/UploadImage")]
         public IActionResult UploadImage(int noteId,IFormFile image)
         {
-            return this.Ok();
+            try
+            {
+                string resMessage = this.notesManager.UploadImage(noteId, image);
+                if (resMessage.Equals("Image Uploaded Succesfully"))
+                {
+                    return this.Ok(new { Status = true, Message = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
         }
     }
 }
