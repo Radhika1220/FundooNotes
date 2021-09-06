@@ -14,10 +14,12 @@ namespace FundooNotes.Controllers
     using Manager.Interface;
     using Microsoft.AspNetCore.Mvc;
     using global::Models;
+    using Microsoft.AspNetCore.Authorization;
 
-   /// <summary>
-   /// Collaborator class
-   /// </summary>
+    /// <summary>
+    /// Collaborator class
+    /// </summary>
+    [Authorize]
     public class CollaboratorController : ControllerBase
     {
         /// <summary>
