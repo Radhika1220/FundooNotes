@@ -38,5 +38,27 @@ namespace FundooNotes.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("api/AddLabel")]
+        public IActionResult AddLabel([FromBody] LabelModel labelModel)
+        {
+            try
+            {
+                string message = this.labelManager.AddLabel(labelModel);
+                if (message.Equals("Label added successfully"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = message });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

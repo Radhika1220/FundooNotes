@@ -27,5 +27,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public string AddLabel(LabelModel labelModel)
+        {
+            try
+            {
+                return this.labelRepository.AddLabel(labelModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

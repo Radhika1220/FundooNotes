@@ -8,5 +8,8 @@ namespace Repository.Interface
     public interface ILabelRepository
     {
         string CreateLabel(LabelModel labelModel);
+
+    
+        string AddLabel(LabelModel labelModel);
     }
 }

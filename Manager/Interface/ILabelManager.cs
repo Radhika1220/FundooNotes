@@ -8,5 +8,7 @@ namespace Manager.Interface
     public interface ILabelManager
     {
         string CreateLabel(LabelModel labelModel);
+
+        string AddLabel(LabelModel labelModel);
     }
 }
