@@ -228,5 +228,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public string RemoveImage(int noteId)
+        {
+            try
+            {
+                return this.notesRepository.RemoveImage(noteId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

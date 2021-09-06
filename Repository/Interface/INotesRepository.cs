@@ -40,5 +40,7 @@ namespace Repository.Interface
         List<NotesModel> GetNotesFromTrash(int userId);
 
         string UploadImage(int noteId, IFormFile image);
+
+        string RemoveImage(int noteId);
     }
 }

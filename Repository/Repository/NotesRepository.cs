@@ -421,5 +421,25 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }  
+
+        public string RemoveImage(int noteId)
+        {
+            try
+            {
+                var checkNoteId = this.userContext.Notes.Where(x => x.NoteId == noteId).SingleOrDefault();
+                if(checkNoteId!=null)
+                {
+                    checkNoteId.Image = null;
+                    this.userContext.Notes.Update(checkNoteId);
+                    this.userContext.SaveChanges();
+                    return "Image Removed Successfully";
+                }
+                return "Image can't be removed";
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -418,5 +418,28 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+
+        [HttpPut]
+        [Route("api/RemoveImage")]
+        public IActionResult RemoveImage(int noteId)
+        {
+            try
+            {
+                string resMessage = this.notesManager.RemoveImage(noteId);
+                if (resMessage.Equals("Image Removed Successfully"))
+                {
+                    return this.Ok(new { Status = true, Message = resMessage });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resMessage });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

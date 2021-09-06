@@ -36,5 +36,7 @@ namespace Manager.Interface
         List<NotesModel> GetNotesFromArchive(int userId);
 
         string UploadImage(int noteId, IFormFile image);
+
+        string RemoveImage(int noteId);
     }
 }
