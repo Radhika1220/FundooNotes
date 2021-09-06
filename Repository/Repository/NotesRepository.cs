@@ -51,7 +51,10 @@ namespace Repository.Repository
                                          on notes.NoteId equals collaborator.NoteId
                                          where collaborator.CEmailId.Equals(emailId)
                                          select notes).ToList();
-              checkNotes.AddRange(collaboratorNotes);
+                if (checkNotes.Count > 0 || collaboratorNotes.Count > 0)
+                {
+                    checkNotes.AddRange(collaboratorNotes);
+                }
               return checkNotes;
             }
             catch (Exception ex)
