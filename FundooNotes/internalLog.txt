@@ -418,3 +418,8 @@
 2021-09-06 17:12:44.3801 Info Adding target FileTarget(Name=alldata)
 2021-09-06 17:12:44.4136 Info Adding target FileTarget(Name=otherFile-web)
 2021-09-06 17:12:44.5010 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=45, FilePath=C:\Users\radhika.s\source\repos\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\Nlog.Config
+2021-09-06 17:27:23.0699 Info Message Template Auto Format enabled
+2021-09-06 17:27:23.0940 Info Loading assembly: NLog.Web.AspNetCore
+2021-09-06 17:27:23.1749 Info Adding target FileTarget(Name=alldata)
+2021-09-06 17:27:23.1911 Info Adding target FileTarget(Name=otherFile-web)
+2021-09-06 17:27:23.2603 Info Validating config: TargetNames=alldata, otherFile-web, ConfigItems=45, FilePath=C:\Users\radhika.s\source\repos\FundooNotes\FundooNotes\bin\Debug\netcoreapp3.1\Nlog.Config

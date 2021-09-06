@@ -82,5 +82,25 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+        public string DeleteLabel(string labelName,int userId)
+        {
+            try
+            {
+                var exists = this.userContext.Label.Where(a => a.LabelName == labelName && a.UserId == userId).ToList();
+                if (exists.Count != 0)
+                {
+                    this.userContext.Label.RemoveRange(exists);
+                    this.userContext.SaveChanges();
+                    return "Deleted Label Successfully" ;
+                }
+                return "no Label exist";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
-}
+    }
+

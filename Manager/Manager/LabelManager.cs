@@ -53,5 +53,19 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+
+
+        public string DeleteLabel(string labelName,int userId)
+        {
+            try
+            {
+                return this.labelRepository.DeleteLabel(labelName,userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
