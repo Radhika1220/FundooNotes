@@ -62,5 +62,25 @@ namespace Repository.Repository
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public string RemoveLabelInNotes(int labelId)
+        {
+            try
+            {
+                var checkLabelId = this.userContext.Label.Find(labelId);
+                if(checkLabelId!=null)
+                {
+                    this.userContext.Label.Remove(checkLabelId);
+                    this.userContext.SaveChanges();
+                    return "Label removed successfully in notes";
+                }
+                return "label not removed";
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -11,5 +11,6 @@ namespace Repository.Interface
 
     
         string AddLabel(LabelModel labelModel);
+        string RemoveLabelInNotes(int labelId);
     }
 }

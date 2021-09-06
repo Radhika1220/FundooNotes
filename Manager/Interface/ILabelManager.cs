@@ -10,5 +10,7 @@ namespace Manager.Interface
         string CreateLabel(LabelModel labelModel);
 
         string AddLabel(LabelModel labelModel);
+
+        string RemoveLabelInNotes(int labelId);
     }
 }

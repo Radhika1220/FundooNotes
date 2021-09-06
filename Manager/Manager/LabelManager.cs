@@ -40,5 +40,18 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+
+        public string RemoveLabelInNotes(int labelId)
+        {
+            try
+            {
+                return this.labelRepository.RemoveLabelInNotes(labelId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
