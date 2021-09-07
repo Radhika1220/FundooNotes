@@ -1,23 +1,44 @@
-﻿using Models;
-using Repository.Context;
-using Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="LabelRepository.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Radhika"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace Repository.Repository
-{
-    public class LabelRepository : ILabelRepository
+{ 
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using Models;
+    using global::Repository.Context;
+    using global::Repository.Interface;
 
+    /// <summary>
+    /// Label repository class
+    /// </summary>
+    public class LabelRepository : ILabelRepository
     {
+        /// <summary>
+        /// Declaring a user context
+        /// </summary>
         private readonly UserContext userContext;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="LabelRepository"/> class
+        /// </summary>
+        /// <param name="userContext">passing a user context</param>
         public LabelRepository(UserContext userContext)
         {
             this.userContext = userContext;
         }
 
+        /// <summary>
+        /// Create model method
+        /// </summary>
+        /// <param name="labelModel">passing a label model</param>
+        /// <returns>returns a success or failed message</returns>
         public string CreateLabel(LabelModel labelModel)
         {
             try
@@ -31,6 +52,7 @@ namespace Repository.Repository
 
                     return "Created Label Successfully";
                 }
+
                 return "Label already exists";
             }
             catch (Exception ex)
@@ -39,13 +61,17 @@ namespace Repository.Repository
             }
         }
 
-
+        /// <summary>
+        /// Add label method 
+        /// </summary>
+        /// <param name="labelModel">passing a label model</param>
+        /// <returns>returns a success or failed message</returns>
         public string AddLabel(LabelModel labelModel)
         {
             try
             {
                 var noteId = labelModel.NoteId;
-                CreateLabel(labelModel);
+                this.CreateLabel(labelModel);
                 labelModel.NoteId = noteId;
                 var checkNoteId = this.userContext.Label.Where(a => a.LabelName.Equals(labelModel.LabelName) && a.NoteId == labelModel.NoteId).SingleOrDefault();
                 if (checkNoteId == null)
@@ -55,6 +81,7 @@ namespace Repository.Repository
                     this.userContext.SaveChanges();
                     return "Label added successfully";
                 }
+
                 return "label not added successfully";
             }
             catch (Exception ex)
@@ -63,7 +90,11 @@ namespace Repository.Repository
             }
         }
 
-
+        /// <summary>
+        /// Remove label in notes method
+        /// </summary>
+        /// <param name="labelId">passing a label id as integer</param>
+        /// <returns>returns a success or failed message</returns>
         public string RemoveLabelInNotes(int labelId)
         {
             try
@@ -75,6 +106,7 @@ namespace Repository.Repository
                     this.userContext.SaveChanges();
                     return "Label removed successfully in notes";
                 }
+
                 return "label not removed";
             }
             catch (Exception ex)
@@ -83,6 +115,12 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Delete label method
+        /// </summary>
+        /// <param name="labelName">passing a label name as string</param>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>returns a success or failed message</returns>
         public string DeleteLabel(string labelName, int userId)
         {
             try
@@ -94,6 +132,7 @@ namespace Repository.Repository
                     this.userContext.SaveChanges();
                     return "Deleted Label Successfully";
                 }
+
                 return "no Label exist";
             }
             catch (Exception ex)
@@ -102,6 +141,11 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Get all labels method
+        /// </summary>
+        /// <param name="userId">passing a user id as integer </param>
+        /// <returns>Returns a list of data</returns>
         public List<LabelModel> GetAllLabels(int userId)
         {
             try
@@ -111,8 +155,8 @@ namespace Repository.Repository
                 {
                     return checkuserId;
                 }
-                return default;
 
+                return default;
             }
             catch (Exception ex)
             {
@@ -120,8 +164,13 @@ namespace Repository.Repository
             }
         }
 
-
-        public List<LabelModel> GetLabelByNotes(int noteId, int userId)
+        /// <summary>
+        /// get label by notes method
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>returns a list of data</returns>
+       public List<LabelModel> GetLabelByNotes(int noteId, int userId)
         {
             try
             {
@@ -130,8 +179,8 @@ namespace Repository.Repository
                 {
                     return checkNoteId;
                 }
-                return default;
 
+                return default;
             }
             catch (Exception ex)
             {
@@ -139,6 +188,11 @@ namespace Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Edit label method 
+        /// </summary>
+        /// <param name="labelModel">passing a label model</param>
+        /// <returns>returns a success or failed message</returns>
         public string EditLabel(LabelModel labelModel)
         {
             try
@@ -150,20 +204,19 @@ namespace Repository.Repository
                     foreach (var data in updateList)
                     {
                         data.LabelName = labelModel.LabelName;
-
                     }
+
                     this.userContext.Label.UpdateRange(updateList);
                     this.userContext.SaveChanges();
                     return "Updated successfully";
                 }
+
                 return "Not updated!! ";
             }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
-
         }
     }
 }
-
