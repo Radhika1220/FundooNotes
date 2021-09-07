@@ -29,7 +29,7 @@ namespace FundooNotes.Controllers
         private readonly IUserManager manager;
 
         /// <summary>
-        /// Instance for logger
+        /// instance for logger
         /// </summary>
         private readonly ILogger<UserController> logger;
 
