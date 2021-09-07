@@ -23,6 +23,7 @@ namespace FundooNotes.Repository.Repository
     using global::Repository.Context;
     using Microsoft.IdentityModel.Tokens;
     using Microsoft.Extensions.Configuration;
+    using StackExchange.Redis;
 
     /// <summary>
     /// Class UserRepository
@@ -98,16 +99,23 @@ namespace FundooNotes.Repository.Repository
         {
             try
             {
-                // string message;
+                 // string message;
                 string encodedPassword = this.EncryptPassWord(password);
                 var login = this.userContext.Users.Where(x => x.Email == email && x.Password == encodedPassword).FirstOrDefault();
+
+                ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                IDatabase database = connectionMultiplexer.GetDatabase();
+                database.StringSet(key: "FirstName", login.FirstName);
+                database.StringSet(key: "LastName", login.LastName);
+                database.StringSet(key: "UserID", login.UserId.ToString());
+
                 if (login == null)
                 {
                     return "login unsuccessful";
                 }
                 else
                 {
-                    return login.toString();
+                    return "login successful";
                 } 
             }
             catch (ArgumentNullException ex)
@@ -115,6 +123,7 @@ namespace FundooNotes.Repository.Repository
                 throw new ArgumentNullException(ex.Message);
             }
         }
+       
 
         /// <summary>
         /// Forgot password API

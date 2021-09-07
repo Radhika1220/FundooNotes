@@ -1,14 +1,28 @@
-﻿using Manager.Interface;
-using Models;
-using Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="CollaboratorManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Radhika"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace Manager.Manager
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+
+    using global::Manager.Interface;
+    using Models;
+    using Repository.Interface;
+
+    /// <summary>
+    /// Class collaborator manager
+    /// </summary>
+
     public class CollaboratorManager:ICollaboratorManager
     {
+        
+    
         private readonly ICollaboratorRepository collaboratorRepository;
 
         public CollaboratorManager(ICollaboratorRepository collaboratorRepository)

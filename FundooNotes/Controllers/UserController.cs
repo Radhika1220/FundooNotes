@@ -16,6 +16,7 @@ namespace FundooNotes.Controllers
     using Microsoft.AspNetCore.Mvc;
     using global::Models;
     using Microsoft.Extensions.Logging;
+    using StackExchange.Redis;
 
     /// <summary>
     /// Controller class-controlling API
@@ -87,11 +88,26 @@ namespace FundooNotes.Controllers
             {
                 _logger.LogInformation(loginData.EmailId + " Is Logging ");
                 string result = this.manager.Login(loginData.EmailId, loginData.Password);
-                if (!(result.Equals("login unsuccessful")))
+                if ((result.Equals("login successful")))
                 {
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    string FirstName = database.StringGet("FirstName");
+                    string LastName = database.StringGet("LastName");
+                    int UserId = Convert.ToInt32(database.StringGet("UserID"));
+
+                    RegisterModel data = new RegisterModel
+                    {
+                        FirstName = FirstName,
+                        LastName = LastName,
+                        UserId = UserId,
+                        Email = loginData.EmailId
+                    };
+
+
                     _logger.LogInformation(loginData.EmailId + " Logged Successfully");
                     string tokenString = this.manager.GenerateToken(loginData.EmailId);
-                    return this.Ok(new { Status = true, Message = "Login Successful!!!",Data=tokenString, UserData= result.ToString()});
+                    return this.Ok(new { Status = true, Message = "Login Successful!!!",Data=tokenString, UserData= data});
                 }
                 else
                 {
