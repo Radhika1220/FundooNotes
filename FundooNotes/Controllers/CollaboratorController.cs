@@ -11,11 +11,10 @@ namespace FundooNotes.Controllers
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-
     using Manager.Interface;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using global::Models;
-    using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
     /// Collaborator class
