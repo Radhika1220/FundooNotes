@@ -1,22 +1,44 @@
-﻿using Manager.Interface;
-using Microsoft.AspNetCore.Http;
-using Models;
-using Repository.Interface;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="NotesManager.cs" company="Bridgelabz">
+//   Copyright © 2021 Company="BridgeLabz"
+// </copyright>
+// <creator name="Radhika"/>
+// ----------------------------------------------------------------------------------------------------------
 
 namespace Manager.Manager
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using global::Manager.Interface;
+    using Microsoft.AspNetCore.Http;
+    using Models;
+    using Repository.Interface;
+
+    /// <summary>
+    /// notes manager class
+    /// </summary>
     public class NotesManager : INotesManager
     {
+        /// <summary>
+        /// object for notes repository
+        /// </summary>
         private readonly INotesRepository notesRepository;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NotesManager"/> class
+        /// </summary>
+        /// <param name="notesRepository">passing a notes repository</param>
         public NotesManager(INotesRepository notesRepository)
         {
             this.notesRepository = notesRepository;
         }
 
+        /// <summary>
+        /// Add notes
+        /// </summary>
+        /// <param name="notesModel">passing a notes model</param>
+        /// <returns>Returns a string message</returns>
         public string AddNotes(NotesModel notesModel)
         {
             try
@@ -28,6 +50,12 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Get notes 
+        /// </summary>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a list of data</returns>
         public List<NotesModel> GetNotes(int userId)
         {
             try
@@ -39,6 +67,12 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Trash notes
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a string message</returns>
         public string TrashNotes(int notesId)
         {
             try
@@ -51,6 +85,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Restore notes
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns true or false</returns>
         public bool RestoreNotes(int notesId)
         {
             try
@@ -62,6 +101,12 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Archive Notes
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a string message</returns>
         public string ArchiveNotes(int notesId)
         {
             try
@@ -74,6 +119,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// UnArchive Notes
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a true or false</returns>
         public bool UnArchiveNotes(int notesId)
         {
             try
@@ -86,6 +136,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Pin Notes
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns a string message</returns>
         public string PinNotes(int notesId)
         {
             try
@@ -97,6 +152,12 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// UnPin Notes
+        /// </summary>
+        /// <param name="notesId">passing a note id as integer</param>
+        /// <returns>Returns true or false</returns>
         public bool UnPinNotes(int notesId)
         {
             try
@@ -109,6 +170,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Update Notes
+        /// </summary>
+        /// <param name="updateModel">passing a update model</param>
+        /// <returns>Returns a list of data</returns>
         public NotesModel UpdateNotes(UpdateModel updateModel)
         {
             try
@@ -121,6 +187,12 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Change Color
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <param name="color">passing a color name as string</param>
+        /// <returns>Returns true or false</returns>
         public bool ChangeColor(int noteId, string color)
         {
             try
@@ -133,6 +205,12 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Change Remainder
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <param name="remainder">passing a remainder as string</param>
+        /// <returns>Returns a string message</returns>
         public string ChangeRemainder(int noteId, string remainder)
         {
             try
@@ -144,6 +222,12 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Delete Notes
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <returns>Returns a string message</returns>
         public string DeleteNotes(int noteId)
         {
             try
@@ -155,6 +239,12 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Delete Remainder
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <returns>Returns a string message</returns>
         public string DeleteRemainder(int noteId)
         {
             try
@@ -167,6 +257,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Empty Trash
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <returns>Returns a string message</returns>
         public string EmptyTrash(int noteId)
         {
             try
@@ -179,7 +274,11 @@ namespace Manager.Manager
             }
         }
 
-
+        /// <summary>
+        /// Get Notes From Remainder
+        /// </summary>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a list of data</returns>
         public List<NotesModel> GetNotesFromRemainder(int userId)
         {
             try
@@ -192,7 +291,11 @@ namespace Manager.Manager
             }
         }
 
-
+        /// <summary>
+        /// Get Notes From Archive
+        /// </summary>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a list of data</returns>
         public List<NotesModel> GetNotesFromArchive(int userId)
         {
             try
@@ -205,6 +308,11 @@ namespace Manager.Manager
             }
         }
 
+        /// <summary>
+        /// Get Notes From Trash
+        /// </summary>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a list of data</returns>
         public List<NotesModel> GetNotesFromTrash(int userId)
         {
             try
@@ -217,11 +325,17 @@ namespace Manager.Manager
             }
         }
 
-        public string UploadImage(int noteId,IFormFile image)
+        /// <summary>
+        /// Upload Image
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <param name="image">passing a image in IForm File</param>
+        /// <returns>Returns a string message</returns>
+        public string UploadImage(int noteId, IFormFile image)
         {
             try
             {
-                return this.notesRepository.UploadImage(noteId,image);
+                return this.notesRepository.UploadImage(noteId, image);
             }
             catch (Exception ex)
             {
@@ -229,7 +343,11 @@ namespace Manager.Manager
             }
         }
 
-
+        /// <summary>
+        /// Remove Image
+        /// </summary>
+        /// <param name="noteId">passing a note id as integer</param>
+        /// <returns>Returns a string message</returns>
         public string RemoveImage(int noteId)
         {
             try

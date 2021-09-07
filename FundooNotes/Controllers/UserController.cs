@@ -14,8 +14,9 @@ namespace FundooNotes.Controllers
     using FundooNotes.Managers.Interface;
     using FundooNotes.Models;
     using Microsoft.AspNetCore.Mvc;
-    using global::Models;
     using Microsoft.Extensions.Logging;
+    using global::Models;
+    using StackExchange.Redis;
 
     /// <summary>
     /// Controller class-controlling API
@@ -26,16 +27,21 @@ namespace FundooNotes.Controllers
         /// instance user manager 
         /// </summary>
         private readonly IUserManager manager;
-        private readonly ILogger<UserController> _logger;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="UserController"/> class
+        /// instance for logger
         /// </summary>
-        /// <param name="manager">manager parameter</param>
+        private readonly ILogger<UserController> logger;
+
+        /// <summary>
+        ///  Initializes a new instance of the <see cref="UserController"/> class
+        /// </summary>
+        /// <param name="manager">passing a manager parameter</param>
+        /// <param name="logger">passing a logger parameter</param>
         public UserController(IUserManager manager, ILogger<UserController> logger)
         {
             this.manager = manager;
-            _logger = logger;
+            this.logger = logger;
         }
 
         /// <summary>
@@ -48,26 +54,26 @@ namespace FundooNotes.Controllers
 
         public IActionResult Register([FromBody] RegisterModel userData)
         {
-            _logger.LogInformation("API For Registration For Accessing Notes");
+            this.logger.LogInformation("API For Registration For Accessing Notes");
             try
             {
-                _logger.LogInformation(userData.FirstName + " " +userData.LastName + " Is trying to register");
-                // sending data to manager
-                string resMessage= this.manager.Register(userData);
+                this.logger.LogInformation(userData.FirstName + " " + userData.LastName + " Is trying to register");
+                ////sending data to manager
+                string resMessage = this.manager.Register(userData);
                 if (resMessage.Equals("Registration Successful"))
                 {
-                    _logger.LogInformation(userData.FirstName + " Is Registered Successfully");
+                    this.logger.LogInformation(userData.FirstName + " Is Registered Successfully");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = resMessage });
                 }
                 else
                 {
-                    _logger.LogWarning("Registration Unsuccesfull");
+                    this.logger.LogWarning("Registration Unsuccesfull");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = resMessage });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Exception Occured While Register " + ex.Message);
+                this.logger.LogError("Exception Occured While Register " + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -82,26 +88,39 @@ namespace FundooNotes.Controllers
 
         public IActionResult Login([FromBody] LoginModel loginData)
         {
-            _logger.LogInformation("API For Login to access the notes");
+            this.logger.LogInformation("API For Login to access the notes");
             try
             {
-                _logger.LogInformation(loginData.EmailId + " Is Logging ");
+                this.logger.LogInformation(loginData.EmailId + " Is Logging ");
                 string result = this.manager.Login(loginData.EmailId, loginData.Password);
-                if (!(result.Equals("login unsuccessful")))
+                if (result.Equals("login successful"))
                 {
-                    _logger.LogInformation(loginData.EmailId + " Logged Successfully");
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    string firstName = database.StringGet("FirstName");
+                    string lastName = database.StringGet("LastName");
+                    int userId = Convert.ToInt32(database.StringGet("UserID"));
+
+                    RegisterModel data = new RegisterModel
+                    {
+                        FirstName = firstName,
+                        LastName = lastName,
+                        UserId = userId,
+                        Email = loginData.EmailId
+                    };
+                    this.logger.LogInformation(loginData.EmailId + " Logged Successfully");
                     string tokenString = this.manager.GenerateToken(loginData.EmailId);
-                    return this.Ok(new { Status = true, Message = "Login Successful!!!",Data=tokenString, UserData= result.ToString()});
+                    return this.Ok(new { Status = true, Message = "Login Successful!!!", Data = tokenString, UserData = data });
                 }
                 else
                 {
-                    _logger.LogWarning("Login Unsuccessfull");
+                    this.logger.LogWarning("Login Unsuccessfull");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Login UnSuccessful!!!" });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Exception Occured While log in " + ex.Message);
+                this.logger.LogError("Exception Occured While log in " + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -115,10 +134,9 @@ namespace FundooNotes.Controllers
         [Route("api/forgetPassword")]
         public IActionResult ForgetPassword(string email)
         {
-            _logger.LogInformation("API For Forgot Password ");
+            this.logger.LogInformation("API For Forgot Password ");
             try
             {
-               
                 // Send user data to manager
                 bool result = this.manager.ForgetPassword(email);
                 if (result == true)
@@ -145,25 +163,25 @@ namespace FundooNotes.Controllers
         [Route("api/resetPassword")]
         public IActionResult ResetPassword([FromBody] ResetPasswordModel resetPassword)
         {
-            _logger.LogInformation("API For Reset Passoword");
+            this.logger.LogInformation("API For Reset Passoword");
             try
             {
-                _logger.LogInformation(resetPassword.EmailId + " Is trying to reset the password");
+                this.logger.LogInformation(resetPassword.EmailId + " Is trying to reset the password");
                 bool result = this.manager.ResetPassword(resetPassword);
                 if (result == true)
                 {
-                    _logger.LogInformation(resetPassword.EmailId + " Reseted Password Successfully");
+                    this.logger.LogInformation(resetPassword.EmailId + " Reseted Password Successfully");
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = "Reseted password successfully" });
                 }
                 else
                 {
-                    _logger.LogWarning("Not Reseted Passowrd Successfully");
+                    this.logger.LogWarning("Not Reseted Passowrd Successfully");
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "not reseted password correctly" });
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError("Exception Occured While in Reset the password " + ex.Message);
+                this.logger.LogError("Exception Occured While in Reset the password " + ex.Message);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
