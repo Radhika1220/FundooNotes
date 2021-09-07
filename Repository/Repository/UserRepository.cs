@@ -19,10 +19,10 @@ namespace FundooNotes.Repository.Repository
     using Experimental.System.Messaging;
     using FundooNotes.Models;
     using FundooNotes.Repository.Interface;
+    using Microsoft.Extensions.Configuration;
+    using Microsoft.IdentityModel.Tokens;
     using global::Models;
     using global::Repository.Context;
-    using Microsoft.IdentityModel.Tokens;
-    using Microsoft.Extensions.Configuration;
     using StackExchange.Redis;
 
     /// <summary>
@@ -35,16 +35,21 @@ namespace FundooNotes.Repository.Repository
         /// </summary>
         private readonly UserContext userContext;
 
-        private  IConfiguration configuration { get; }
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepository"/> class
         /// </summary>
-        /// <param name="userContext">Passing UserContext(DB model)</param>
-        public UserRepository(UserContext userContext,IConfiguration configuration)
+        /// <param name="userContext">passing a user context</param>
+        /// <param name="configuration">passing a configuration</param>
+        public UserRepository(UserContext userContext, IConfiguration configuration)
         {
             this.userContext = userContext;
-            this.configuration = configuration;
+            this.Configuration = configuration;
         }
+
+        /// <summary>
+        /// Gets  the configuration
+        /// </summary>
+        private IConfiguration Configuration { get; }
 
         /// <summary>
         /// new Registration for user
@@ -53,7 +58,6 @@ namespace FundooNotes.Repository.Repository
         /// <returns>returns true</returns>
         public string Register(RegisterModel userData)
         {
-            
             try
             {
                 var check = this.userContext.Users.Where(x => x.Email == userData.Email).FirstOrDefault();
@@ -69,6 +73,7 @@ namespace FundooNotes.Repository.Repository
 
                     return "Registration UnSuccessful";
                 }
+
                 return "EmailId already Exists!!!Please login it";
             }
             catch (ArgumentNullException ex)
@@ -124,7 +129,6 @@ namespace FundooNotes.Repository.Repository
             }
         }
        
-
         /// <summary>
         /// Forgot password API
         /// </summary>
@@ -143,47 +147,6 @@ namespace FundooNotes.Repository.Repository
             }
         }
 
-        private void SendMSMQ()
-        {
-            MessageQueue msgqueue;
-            if (MessageQueue.Exists(@".\Private$\MyQueue"))
-            {
-                msgqueue = new MessageQueue(@".\Private$\MyQueue");
-            }
-            else
-            {
-                msgqueue = MessageQueue.Create(@".\Private$\MyQueue");
-            }
-
-            Message message = new Message();
-            var formatter = new BinaryMessageFormatter();
-            message.Formatter = formatter;
-            msgqueue.Label = "url Link";
-            message.Body = "Reset link for password";
-            msgqueue.Send(message);
-         
-        }
-        private bool SendMail(string email)
-        {
-            string emailMessage = this.ReceiveMSMQ(email);
-            if(SendMailToUser(email, emailMessage))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        private string ReceiveMSMQ(string Email)
-        {
-            //for reading msmq
-            var receivequeue = new MessageQueue(@".\Private$\MyQueue");
-            var receivemsg = receivequeue.Receive();
-            receivemsg.Formatter = new BinaryMessageFormatter();
-            string emailMessage = receivemsg.Body.ToString();
-            return emailMessage;
-        }
             /// <summary>
             /// reset password method for repository class
             /// </summary>
@@ -214,13 +177,19 @@ namespace FundooNotes.Repository.Repository
             }
         }
 
+        /// <summary>
+        /// Generate Token method
+        /// </summary>
+        /// <param name="email">passing a email id</param>
+        /// <returns>returns a string token</returns>
         public string GenerateToken(string email)
         {
-            byte[] key = Encoding.UTF8.GetBytes(this.configuration["SecretKey"]);
+            byte[] key = Encoding.UTF8.GetBytes(this.Configuration["SecretKey"]);
             SymmetricSecurityKey securityKey = new SymmetricSecurityKey(key);
             SecurityTokenDescriptor descriptor = new SecurityTokenDescriptor
             {
-                Subject = new ClaimsIdentity(new[] {
+                Subject = new ClaimsIdentity(new[] 
+                {
                 new Claim(ClaimTypes.Name, email)
             }),
                 Expires = DateTime.UtcNow.AddMinutes(30),
@@ -230,6 +199,63 @@ namespace FundooNotes.Repository.Repository
             JwtSecurityToken token = handler.CreateJwtSecurityToken(descriptor);
             return handler.WriteToken(token);
         }
+
+        /// <summary>
+        /// Send message queue method to send message to queue
+        /// </summary>
+        private void SendMSMQ()
+        {
+            MessageQueue msgqueue;
+            if (MessageQueue.Exists(@".\Private$\MyQueue"))
+            {
+                msgqueue = new MessageQueue(@".\Private$\MyQueue");
+            }
+            else
+            {
+                msgqueue = MessageQueue.Create(@".\Private$\MyQueue");
+            }
+
+            Message message = new Message();
+            var formatter = new BinaryMessageFormatter();
+            message.Formatter = formatter;
+            msgqueue.Label = "url Link";
+            message.Body = "Reset link for password";
+            msgqueue.Send(message);
+        }
+
+        /// <summary>
+        /// send mail to authorized person
+        /// </summary>
+        /// <param name="email">passing a string email id </param>
+        /// <returns>returns true or false</returns>
+        private bool SendMail(string email)
+        {
+            string emailMessage = this.ReceiveMSMQ(email);
+            if (this.SendMailToUser(email, emailMessage))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Receive message queue
+        /// </summary>
+        /// <param name="email">passing a string email id </param>
+        /// <returns>returns a string email message </returns>
+        private string ReceiveMSMQ(string email)
+        {
+            // for reading msmq
+            var receivequeue = new MessageQueue(@".\Private$\MyQueue");
+            var receivemsg = receivequeue.Receive();
+            receivemsg.Formatter = new BinaryMessageFormatter();
+            string emailMessage = receivemsg.Body.ToString();
+            return emailMessage;
+        }
+
         /// <summary>
         /// SMTP Configuration
         /// </summary>

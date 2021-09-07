@@ -106,6 +106,11 @@ namespace FundooNotes.Managers.Manager
             }
         }
 
+        /// <summary>
+        /// Generate token method
+        /// </summary>
+        /// <param name="email">passing a email id (string)</param>
+        /// <returns>returns a string token</returns>
         public string GenerateToken(string email)
         {
             try

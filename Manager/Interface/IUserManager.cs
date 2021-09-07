@@ -48,6 +48,11 @@ namespace FundooNotes.Managers.Interface
         /// <returns>returns true</returns>
         bool ResetPassword(ResetPasswordModel resetPasswordModel);
 
+        /// <summary>
+        /// Definition for generate token
+        /// </summary>
+        /// <param name="email">passing a email as string</param>
+        /// <returns>returns a token</returns>
         string GenerateToken(string email);
     }
 }
