@@ -224,5 +224,33 @@ namespace FundooNotes.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        /// <summary>
+        /// Get notes by label API
+        /// </summary>
+        /// <param name="labelName">passing a label name as string</param>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a IAction Result</returns>
+        [HttpGet]
+        [Route("api/GetNotesByLabel")]
+        public IActionResult GetNotesByLabel(string labelName, int userId)
+        {
+            try
+            {
+                var message = this.labelManager.GetNotesByLabel(labelName, userId);
+                if (message.Count > 0)
+                {
+                    return this.Ok(new { Status = true, Message = "Notes returned successfully", Data = message });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "label does not exist" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+        }
     }
-}

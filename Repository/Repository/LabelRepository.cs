@@ -195,28 +195,53 @@ namespace Repository.Repository
         /// <returns>returns a success or failed message</returns>
         public string EditLabel(LabelModel labelModel)
         {
+            string message = "Updated successfully";
             try
             {
                 var oldLabeldata = this.userContext.Label.Where(x => x.LabelId == labelModel.LabelId).SingleOrDefault();
                 var updateList = this.userContext.Label.Where(x => x.LabelName.Equals(oldLabeldata.LabelName) && x.UserId == labelModel.UserId).ToList();
-                if (updateList.Count > 0)
+                var checkLabelName = this.userContext.Label.Where(x => x.LabelName.Equals(labelModel.LabelName) && x.UserId == labelModel.UserId).FirstOrDefault();
+                if (checkLabelName != null)
                 {
-                    foreach (var data in updateList)
+                    var mergeLabel = this.userContext.Label.Find(labelModel.LabelId);
+                    updateList.Remove(mergeLabel);
+                    this.userContext.Label.Remove(mergeLabel);
+                    this.userContext.SaveChanges();
+                    message = "Merge the" + oldLabeldata.LabelName + " label with the" + checkLabelName.LabelName + " label? All notes labelled with" + oldLabeldata.LabelName + " will be labelled with" + checkLabelName.LabelName + " and the" + oldLabeldata.LabelName + " label will be deleted";
+                }
+
+                  foreach (var data in updateList)
                     {
                         data.LabelName = labelModel.LabelName;
                     }
 
                     this.userContext.Label.UpdateRange(updateList);
                     this.userContext.SaveChanges();
-                    return "Updated successfully";
+                    return message;
                 }
-
-                return "Not updated!! ";
-            }
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Get Notes By Label
+        /// </summary>
+        /// <param name="labelName">passing a label name as string</param>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a list of data</returns>
+        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        {
+            var noteIdList = this.userContext.Label.Where(a => a.LabelName == labelName && a.UserId == userId).Select(x => x.NoteId).ToList();
+            List<NotesModel> notesList = new List<NotesModel>();
+            foreach (var data in noteIdList)
+            {
+                var d = this.userContext.Notes.Where(x => x.NoteId == data).SingleOrDefault();
+                notesList.Add(d);
+            }
+
+            return notesList;
         }
     }
 }
