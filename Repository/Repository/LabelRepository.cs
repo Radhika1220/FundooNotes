@@ -195,7 +195,7 @@ namespace Repository.Repository
         /// <returns>returns a success or failed message</returns>
         public string EditLabel(LabelModel labelModel)
         {
-            string message= "Updated successfully";
+            string message = "Updated successfully";
             try
             {
                 var oldLabeldata = this.userContext.Label.Where(x => x.LabelId == labelModel.LabelId).SingleOrDefault();
@@ -207,8 +207,9 @@ namespace Repository.Repository
                     updateList.Remove(mergeLabel);
                     this.userContext.Label.Remove(mergeLabel);
                     this.userContext.SaveChanges();
-                    message = "Merge the" + oldLabeldata.LabelName + " label with the" + checkLabelName.LabelName + " label? All notes labelled with" + oldLabeldata.LabelName +  " will be labelled with" + checkLabelName.LabelName + " and the" + oldLabeldata.LabelName + " label will be deleted";
+                    message = "Merge the" + oldLabeldata.LabelName + " label with the" + checkLabelName.LabelName + " label? All notes labelled with" + oldLabeldata.LabelName + " will be labelled with" + checkLabelName.LabelName + " and the" + oldLabeldata.LabelName + " label will be deleted";
                 }
+
                   foreach (var data in updateList)
                     {
                         data.LabelName = labelModel.LabelName;
@@ -218,22 +219,28 @@ namespace Repository.Repository
                     this.userContext.SaveChanges();
                     return message;
                 }
-            
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
         }
 
-        public List<NotesModel> GetNotesByLabel(string labelName,int userId)
+        /// <summary>
+        /// Get Notes By Label
+        /// </summary>
+        /// <param name="labelName">passing a label name as string</param>
+        /// <param name="userId">passing a user id as integer</param>
+        /// <returns>Returns a list of data</returns>
+        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
         {
             var noteIdList = this.userContext.Label.Where(a => a.LabelName == labelName && a.UserId == userId).Select(x => x.NoteId).ToList();
-            List<NotesModel> notesList=new List<NotesModel>();
-            foreach(var data in noteIdList)
+            List<NotesModel> notesList = new List<NotesModel>();
+            foreach (var data in noteIdList)
             {
                 var d = this.userContext.Notes.Where(x => x.NoteId == data).SingleOrDefault();
                 notesList.Add(d);
             }
+
             return notesList;
         }
     }
