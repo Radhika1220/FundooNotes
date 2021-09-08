@@ -153,5 +153,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        {
+            try
+            {
+                return this.labelRepository.GetNotesByLabel(labelName, userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

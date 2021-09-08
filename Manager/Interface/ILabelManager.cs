@@ -67,5 +67,7 @@ namespace Manager.Interface
         /// <param name="labelModel">passing a label model</param>
         /// <returns>returns a string message</returns>
         string EditLabel(LabelModel labelModel);
+
+        List<NotesModel> GetNotesByLabel(string labelName, int userId);
     }
 }

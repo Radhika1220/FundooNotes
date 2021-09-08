@@ -206,7 +206,8 @@ namespace Repository.Repository
                     var mergeLabel = this.userContext.Label.Find(labelModel.LabelId);
                     updateList.Remove(mergeLabel);
                     this.userContext.Label.Remove(mergeLabel);
-                    message = "Merge the" + oldLabeldata.LabelName + "label with the" + checkLabelName.LabelName + "label? All notes labelled with" + oldLabeldata.LabelName + "will be labelled with" + checkLabelName.LabelName + "and the" + oldLabeldata.LabelName + "label will be deleted";
+                    this.userContext.SaveChanges();
+                    message = "Merge the" + oldLabeldata.LabelName + " label with the" + checkLabelName.LabelName + " label? All notes labelled with" + oldLabeldata.LabelName +  " will be labelled with" + checkLabelName.LabelName + " and the" + oldLabeldata.LabelName + " label will be deleted";
                 }
                   foreach (var data in updateList)
                     {
@@ -222,6 +223,18 @@ namespace Repository.Repository
             {
                 throw new Exception(ex.Message);
             }
+        }
+
+        public List<NotesModel> GetNotesByLabel(string labelName,int userId)
+        {
+            var noteIdList = this.userContext.Label.Where(a => a.LabelName == labelName && a.UserId == userId).Select(x => x.NoteId).ToList();
+            List<NotesModel> notesList=new List<NotesModel>();
+            foreach(var data in noteIdList)
+            {
+                var d = this.userContext.Notes.Where(x => x.NoteId == data).SingleOrDefault();
+                notesList.Add(d);
+            }
+            return notesList;
         }
     }
 }
