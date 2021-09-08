@@ -13,6 +13,7 @@ namespace FundooNotes.Controllers
     using System.Threading.Tasks;
     using FundooNotes.Managers.Interface;
     using FundooNotes.Models;
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using global::Models;
@@ -23,6 +24,16 @@ namespace FundooNotes.Controllers
     /// </summary>
     public class UserController : ControllerBase
     {
+        /// <summary>
+        /// declaring a variable for session name
+        /// </summary>
+         private const string SessionName = "_FullName";
+
+        /// <summary>
+        /// declaring a variable for session email id
+        /// </summary>
+         private const string SessionEmail = "_EmailId";
+
         /// <summary>
         /// instance user manager 
         /// </summary>
@@ -54,6 +65,8 @@ namespace FundooNotes.Controllers
 
         public IActionResult Register([FromBody] RegisterModel userData)
         {
+            HttpContext.Session.SetString(SessionName, userData.FirstName + " " + userData.LastName);
+            HttpContext.Session.SetString(SessionEmail, userData.Email);
             this.logger.LogInformation("API For Registration For Accessing Notes");
             try
             {
@@ -62,8 +75,10 @@ namespace FundooNotes.Controllers
                 string resMessage = this.manager.Register(userData);
                 if (resMessage.Equals("Registration Successful"))
                 {
-                    this.logger.LogInformation(userData.FirstName + " Is Registered Successfully");
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resMessage });
+                   string name = HttpContext.Session.GetString(SessionName);
+                   string email = HttpContext.Session.GetString(SessionEmail);
+                   this.logger.LogInformation(userData.FirstName + " Is Registered Successfully");
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = resMessage, Data = "Session Name :" + name + " Email Id :" + email });
                 }
                 else
                 {

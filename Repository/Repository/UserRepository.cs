@@ -24,12 +24,15 @@ namespace FundooNotes.Repository.Repository
     using global::Models;
     using global::Repository.Context;
     using StackExchange.Redis;
+    using Microsoft.AspNetCore.Http;
 
     /// <summary>
     /// Class UserRepository
     /// </summary>
     public class UserRepository : IUserRepository
     {
+        const string SessionName = "_FullName";
+        const string SessionEmail = "_EmailId";
         /// <summary>
         /// Declaring UserContext 
         /// </summary>
