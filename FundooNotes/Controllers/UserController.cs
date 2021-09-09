@@ -65,11 +65,11 @@ namespace FundooNotes.Controllers
 
         public IActionResult Register([FromBody] RegisterModel userData)
         {
-            HttpContext.Session.SetString(SessionName, userData.FirstName + " " + userData.LastName);
-            HttpContext.Session.SetString(SessionEmail, userData.Email);
             this.logger.LogInformation("API For Registration For Accessing Notes");
             try
             {
+                HttpContext.Session.SetString(SessionName, userData.FirstName + " " + userData.LastName);
+                HttpContext.Session.SetString(SessionEmail, userData.Email);
                 this.logger.LogInformation(userData.FirstName + " " + userData.LastName + " Is trying to register");
                 ////sending data to manager
                 string resMessage = this.manager.Register(userData);

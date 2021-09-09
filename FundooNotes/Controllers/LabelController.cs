@@ -116,18 +116,17 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// Delete label API
+        /// Delete Label API
         /// </summary>
-        /// <param name="labelName">passing a label name as string</param>
-        /// <param name="userId">passing a user id as integer</param>
+        /// <param name="labelModel">passing a label model</param>
         /// <returns>Returns a IAction result</returns>
         [HttpDelete]
         [Route("api/DeleteLabel")]
-        public IActionResult DeleteLabel(string labelName, int userId)
+        public IActionResult DeleteLabel([FromBody] LabelModel labelModel)
         {
             try
             {
-                string message = this.labelManager.DeleteLabel(labelName, userId);
+                string message = this.labelManager.DeleteLabel(labelModel);
                 if (message.Equals("Deleted Label Successfully"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
@@ -226,18 +225,17 @@ namespace FundooNotes.Controllers
         }
 
         /// <summary>
-        /// Get notes by label API
+        /// Get Notes By Label API
         /// </summary>
-        /// <param name="labelName">passing a label name as string</param>
-        /// <param name="userId">passing a user id as integer</param>
+        /// <param name="labelModel">passing a label model</param>
         /// <returns>Returns a IAction Result</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/GetNotesByLabel")]
-        public IActionResult GetNotesByLabel(string labelName, int userId)
+        public IActionResult GetNotesByLabel([FromBody] LabelModel labelModel)
         {
             try
             {
-                var message = this.labelManager.GetNotesByLabel(labelName, userId);
+                var message = this.labelManager.GetNotesByLabel(labelModel);
                 if (message.Count > 0)
                 {
                     return this.Ok(new { Status = true, Message = "Notes returned successfully", Data = message });

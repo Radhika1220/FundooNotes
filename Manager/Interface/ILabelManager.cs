@@ -39,12 +39,11 @@ namespace Manager.Interface
         string RemoveLabelInNotes(int labelId);
 
         /// <summary>
-        /// Definition for delete label 
+        /// Delete Label
         /// </summary>
-        /// <param name="labelName">passing a label name as string</param>
-        /// <param name="userId">passing a user id as integer</param>
+        /// <param name="labelModel">passing a label model</param>
         /// <returns>returns a string message</returns>
-        string DeleteLabel(string labelName, int userId);
+        string DeleteLabel(LabelModel labelModel);
 
         /// <summary>
         /// Definition for Get all labels
@@ -69,11 +68,10 @@ namespace Manager.Interface
         string EditLabel(LabelModel labelModel);
 
         /// <summary>
-        /// Definition for GetNotesByLabel method
+        /// Get notes by label
         /// </summary>
-        /// <param name="labelName">passing a label name as string</param>
-        /// <param name="userId">passing a user id as integer</param>
-        /// <returns>Returns a list of data</returns>
-        List<NotesModel> GetNotesByLabel(string labelName, int userId);
+        /// <param name="labelModel">passing a label model</param>
+        /// <returns>returns a list of data</returns>
+        List<NotesModel> GetNotesByLabel(LabelModel labelModel);
     }
 }

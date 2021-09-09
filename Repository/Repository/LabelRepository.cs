@@ -116,16 +116,15 @@ namespace Repository.Repository
         }
 
         /// <summary>
-        /// Delete label method
+        /// delete label
         /// </summary>
-        /// <param name="labelName">passing a label name as string</param>
-        /// <param name="userId">passing a user id as integer</param>
+        /// <param name="labelModel">passing a label model</param>
         /// <returns>returns a success or failed message</returns>
-        public string DeleteLabel(string labelName, int userId)
+        public string DeleteLabel(LabelModel labelModel)
         {
             try
             {
-                var exists = this.userContext.Label.Where(a => a.LabelName == labelName && a.UserId == userId).ToList();
+                var exists = this.userContext.Label.Where(a => a.LabelName == labelModel.LabelName && a.UserId == labelModel.UserId).ToList();
                 if (exists.Count != 0)
                 {
                     this.userContext.Label.RemoveRange(exists);
@@ -228,20 +227,26 @@ namespace Repository.Repository
         /// <summary>
         /// Get Notes By Label
         /// </summary>
-        /// <param name="labelName">passing a label name as string</param>
-        /// <param name="userId">passing a user id as integer</param>
-        /// <returns>Returns a list of data</returns>
-        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        /// <param name="labelModel">passing a label model</param>
+        /// <returns>returns a list of data</returns>
+        public List<NotesModel> GetNotesByLabel(LabelModel labelModel)
         {
-            var noteIdList = this.userContext.Label.Where(a => a.LabelName == labelName && a.UserId == userId).Select(x => x.NoteId).ToList();
-            List<NotesModel> notesList = new List<NotesModel>();
-            foreach (var data in noteIdList)
+            try
             {
-                var d = this.userContext.Notes.Where(x => x.NoteId == data).SingleOrDefault();
-                notesList.Add(d);
-            }
+                var noteIdList = this.userContext.Label.Where(a => a.LabelName == labelModel.LabelName && a.UserId == labelModel.UserId && a.NoteId != null).Select(x => x.NoteId).ToList();
+                List<NotesModel> notesList = new List<NotesModel>();
+                foreach (var data in noteIdList)
+                {
+                    var d = this.userContext.Notes.Where(x => x.NoteId == data).SingleOrDefault();
+                    notesList.Add(d);
+                }
 
-            return notesList;
+                return notesList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
