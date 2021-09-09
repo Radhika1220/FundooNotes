@@ -160,11 +160,11 @@ namespace Manager.Manager
         /// <param name="labelName">passing a label name as string</param>
         /// <param name="userId">passing a user id as integer</param>
         /// <returns>Returns a list of data</returns>
-        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        public List<NotesModel> GetNotesByLabel(LabelModel labelModel)
         {
             try
             {
-                return this.labelRepository.GetNotesByLabel(labelName, userId);
+                return this.labelRepository.GetNotesByLabel(labelModel);
             }
             catch (Exception ex)
             {

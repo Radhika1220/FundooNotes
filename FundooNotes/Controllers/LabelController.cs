@@ -231,13 +231,13 @@ namespace FundooNotes.Controllers
         /// <param name="labelName">passing a label name as string</param>
         /// <param name="userId">passing a user id as integer</param>
         /// <returns>Returns a IAction Result</returns>
-        [HttpGet]
+        [HttpPost]
         [Route("api/GetNotesByLabel")]
-        public IActionResult GetNotesByLabel(string labelName, int userId)
+        public IActionResult GetNotesByLabel([FromBody] LabelModel labelModel)
         {
             try
             {
-                var message = this.labelManager.GetNotesByLabel(labelName, userId);
+                var message = this.labelManager.GetNotesByLabel(labelModel);
                 if (message.Count > 0)
                 {
                     return this.Ok(new { Status = true, Message = "Notes returned successfully", Data = message });

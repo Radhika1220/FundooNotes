@@ -231,17 +231,23 @@ namespace Repository.Repository
         /// <param name="labelName">passing a label name as string</param>
         /// <param name="userId">passing a user id as integer</param>
         /// <returns>Returns a list of data</returns>
-        public List<NotesModel> GetNotesByLabel(string labelName, int userId)
+        public List<NotesModel> GetNotesByLabel(LabelModel labelModel)
         {
-            var noteIdList = this.userContext.Label.Where(a => a.LabelName == labelName && a.UserId == userId).Select(x => x.NoteId).ToList();
-            List<NotesModel> notesList = new List<NotesModel>();
-            foreach (var data in noteIdList)
+            try
             {
-                var d = this.userContext.Notes.Where(x => x.NoteId == data).SingleOrDefault();
-                notesList.Add(d);
+                var noteIdList = this.userContext.Label.Where(a=>a.LabelName==labelModel.LabelName && a.UserId==labelModel.UserId && a.NoteId!=null).Select(x => x.NoteId).ToList();
+                List<NotesModel> notesList = new List<NotesModel>();
+                foreach (var data in noteIdList)
+                {
+                    var d = this.userContext.Notes.Where(x => x.NoteId == data).SingleOrDefault();
+                    notesList.Add(d);
+                }
+                return notesList;
             }
-
-            return notesList;
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

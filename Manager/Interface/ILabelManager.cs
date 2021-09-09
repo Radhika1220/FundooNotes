@@ -74,6 +74,6 @@ namespace Manager.Interface
         /// <param name="labelName">passing a label name as string</param>
         /// <param name="userId">passing a user id as integer</param>
         /// <returns>Returns a list of data</returns>
-        List<NotesModel> GetNotesByLabel(string labelName, int userId);
+        List<NotesModel> GetNotesByLabel(LabelModel labelModel);
     }
 }

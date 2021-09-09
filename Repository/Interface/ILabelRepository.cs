@@ -68,6 +68,6 @@ namespace Repository.Interface
         /// <returns>returns a string message</returns>
         string EditLabel(LabelModel labelModel);
 
-        List<NotesModel> GetNotesByLabel(string labelName, int userId);
+        List<NotesModel> GetNotesByLabel(LabelModel labelModel);
     }
 }
