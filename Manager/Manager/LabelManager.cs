@@ -83,18 +83,17 @@ namespace Manager.Manager
                 throw new Exception(ex.Message);
             }
         }
-        
+
         /// <summary>
-        /// Delete label 
+        /// Delete Label
         /// </summary>
-        /// <param name="labelName">passing a label name as string</param>
-        /// <param name="userId">passing a user id as integer</param>
+        /// <param name="labelModel">passing a label model</param>
         /// <returns>returns a string message</returns>
-        public string DeleteLabel(string labelName, int userId)
+        public string DeleteLabel(LabelModel labelModel)
         {
             try
             {
-                return this.labelRepository.DeleteLabel(labelName, userId);
+                return this.labelRepository.DeleteLabel(labelModel);
             }
             catch (Exception ex)
             {
@@ -155,10 +154,9 @@ namespace Manager.Manager
         }
 
         /// <summary>
-        /// Get notes by label method
+        /// Get Notes By Label
         /// </summary>
-        /// <param name="labelName">passing a label name as string</param>
-        /// <param name="userId">passing a user id as integer</param>
+        /// <param name="labelModel">passing a label model</param>
         /// <returns>Returns a list of data</returns>
         public List<NotesModel> GetNotesByLabel(LabelModel labelModel)
         {
