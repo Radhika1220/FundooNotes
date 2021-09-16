@@ -132,6 +132,16 @@ namespace FundooNotes
             services.AddSession(options => {
                 options.IdleTimeout = TimeSpan.FromMinutes(5);//You can set Time   
             });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(name: "CorsPolicyAllHosts",
+                builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+                });
+            });
         }
 
         ////This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -153,7 +163,7 @@ namespace FundooNotes
                 //// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
-
+            app.UseCors("CorsPolicyAllHosts");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();

@@ -22,6 +22,7 @@ namespace FundooNotes.Controllers
     /// <summary>
     /// Controller class-controlling API
     /// </summary>
+    ///[Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         /// <summary>
