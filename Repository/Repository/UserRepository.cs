@@ -222,7 +222,7 @@ namespace FundooNotes.Repository.Repository
             var formatter = new BinaryMessageFormatter();
             message.Formatter = formatter;
             msgqueue.Label = "url Link";
-            message.Body = "Reset link for password";
+            message.Body = "http://localhost:4200/reset-password";
             msgqueue.Send(message);
         }
 
