@@ -77,7 +77,7 @@ namespace FundooNotes.Repository.Repository
                     return "Registration UnSuccessful";
                 }
 
-                return "EmailId already Exists!!!Please login it";
+                return "Registration UnSuccessful";
             }
             catch (ArgumentNullException ex)
             {
@@ -111,18 +111,18 @@ namespace FundooNotes.Repository.Repository
                 string encodedPassword = this.EncryptPassWord(password);
                 var login = this.userContext.Users.Where(x => x.Email == email && x.Password == encodedPassword).FirstOrDefault();
 
-                ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
-                IDatabase database = connectionMultiplexer.GetDatabase();
-                database.StringSet(key: "FirstName", login.FirstName);
-                database.StringSet(key: "LastName", login.LastName);
-                database.StringSet(key: "UserID", login.UserId.ToString());
-               
+        
                 if (login == null)
                 {
                     return "login unsuccessful";
                 }
                 else
                 {
+                    ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
+                    IDatabase database = connectionMultiplexer.GetDatabase();
+                    database.StringSet(key: "FirstName", login.FirstName);
+                    database.StringSet(key: "LastName", login.LastName);
+                    database.StringSet(key: "UserID", login.UserId.ToString());
                     return "login successful";
                 } 
             }
@@ -137,12 +137,20 @@ namespace FundooNotes.Repository.Repository
         /// </summary>
         /// <param name="email">email type string </param>
         /// <returns>true if message sent to mail</returns>
-        public bool ForgetPassword(string email)
+        public string ForgetPassword(string email)
         {
             try
             {
-                this.SendMSMQ();
-                return this.SendMail(email);
+                var t= this.GenerateToken(email);
+                this.SendMSMQ(t);          
+                if(this.SendMail(email))
+                {
+                    return t;
+                }
+                else
+                {
+                    return "Mail not sent";
+                }
             }
             catch (Exception ex)
             {
@@ -206,9 +214,10 @@ namespace FundooNotes.Repository.Repository
         /// <summary>
         /// Send message queue method to send message to queue
         /// </summary>
-        private void SendMSMQ()
+        private void SendMSMQ(string token)
         {
             MessageQueue msgqueue;
+
             if (MessageQueue.Exists(@".\Private$\MyQueue"))
             {
                 msgqueue = new MessageQueue(@".\Private$\MyQueue");
@@ -217,12 +226,11 @@ namespace FundooNotes.Repository.Repository
             {
                 msgqueue = MessageQueue.Create(@".\Private$\MyQueue");
             }
-
             Message message = new Message();
             var formatter = new BinaryMessageFormatter();
             message.Formatter = formatter;
             msgqueue.Label = "url Link";
-            message.Body = "http://localhost:4200/reset-password";
+            message.Body = "http://localhost:4200/reset-password/"+ token;
             msgqueue.Send(message);
         }
 

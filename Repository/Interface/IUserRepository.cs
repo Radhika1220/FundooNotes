@@ -7,10 +7,6 @@
 
 namespace FundooNotes.Repository.Interface
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using FundooNotes.Models;
     using global::Models;
 
@@ -37,10 +33,10 @@ namespace FundooNotes.Repository.Interface
         /// <summary>
         /// definition for forgot password
         /// </summary>
-        /// <param name="email">email as string type</param>
-        /// <returns>boolean type </returns>
-        bool ForgetPassword(string email);
-    
+        /// <param name="token">token</param>
+        /// <returns>string message</returns>
+        string ForgetPassword(string email);
+
         /// <summary>
         /// definition for reset password in user repository class
         /// </summary>

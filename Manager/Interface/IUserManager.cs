@@ -38,8 +38,8 @@ namespace FundooNotes.Managers.Interface
         /// definition for forgot password
         /// </summary>
         /// <param name="email">email as string type</param>
-        /// <returns>boolean value</returns>
-        bool ForgetPassword(string email);
+        /// <returns>string value</returns>
+        string ForgetPassword(string email);
 
         /// <summary>
         /// reset password definition
