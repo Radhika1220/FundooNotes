@@ -75,7 +75,7 @@ namespace FundooNotes.Managers.Manager
         /// </summary>
         /// <param name="email">email as string</param>
         /// <returns>return true for repository</returns>
-        public bool ForgetPassword(string email)
+        public string ForgetPassword(string email)
         {
             try
             {

@@ -154,10 +154,10 @@ namespace FundooNotes.Controllers
             try
             {
                 // Send user data to manager
-                bool result = this.manager.ForgetPassword(email);
-                if (result == true)
+                var result = this.manager.ForgetPassword(email);
+                if (!result.Equals("Mail not sent"))
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = "Please check your email" });
+                    return this.Ok(new  { Status = true, Message = "Please check your email",Data=result, email});
                 }
                 else
                 {
