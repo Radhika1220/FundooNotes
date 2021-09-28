@@ -50,8 +50,9 @@ namespace Repository.Repository
         /// </summary>
         /// <param name="notesData">passing a note model</param>
         /// <returns>Returns success or failed message</returns>
-        public string AddNotes(NotesModel notesData)
+        public NotesModel AddNotes(NotesModel notesData)
         {
+           
             try
             {
                 // if notes data is not null update the data in database
@@ -59,10 +60,11 @@ namespace Repository.Repository
                 {
                     this.userContext.Notes.Add(notesData);
                     this.userContext.SaveChanges();
-                    return "Added Notes Successfully";
+                    return notesData;
+                   
                 }
 
-                return "Not added Successfully";
+                return null;
             }
             catch (Exception ex)
             {

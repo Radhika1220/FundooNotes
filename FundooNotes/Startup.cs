@@ -72,13 +72,13 @@ namespace FundooNotes
             services.AddTransient<ICollaboratorManager, CollaboratorManager>();
             services.AddTransient<ILabelManager, LabelManager>();
             services.AddTransient<ILabelRepository, LabelRepository>();
-            services.AddSwaggerGen(c =>
+           services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc(
                     "v1.0", 
                  new OpenApiInfo 
                 { 
-                    Title = "FundooNotes", 
+                    Title  = "FundooNotes", 
                     Description = "Google Keep Notes.",
                     Version = "1.0" 
                 });

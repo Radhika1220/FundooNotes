@@ -23,7 +23,7 @@ namespace Manager.Interface
         /// </summary>
         /// <param name="notesModel">passing a notes model</param>
         /// <returns>Returns a string message</returns>
-        string AddNotes(NotesModel notesModel);
+        NotesModel AddNotes(NotesModel notesModel);
 
         /// <summary>
         /// Definition for Get notes 

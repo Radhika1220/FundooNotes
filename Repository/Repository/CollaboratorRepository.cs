@@ -71,11 +71,11 @@ namespace Repository.Repository
         /// </summary>
         /// <param name="noteId">Passing a note id</param>
         /// <returns>Returns a success or fail message</returns>
-       public string DeleteCollaborator(int noteId)
+       public string DeleteCollaborator(int cId)
         {
             try
             {
-                var checkId = this.userContext.Collaborators.Where(a => a.NoteId == noteId).SingleOrDefault();
+                var checkId = this.userContext.Collaborators.Where(a => a.CId == cId).SingleOrDefault();
                 if (checkId != null)
                 {
                     this.userContext.Collaborators.Remove(checkId);
