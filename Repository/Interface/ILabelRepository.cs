@@ -43,7 +43,7 @@ namespace Repository.Interface
         /// </summary>
         /// <param name="labelModel">passing a label model</param>
         /// <returns>Returns a string message</returns>
-        string DeleteLabel(LabelModel labelModel);
+        string DeleteLabel(int labelId);
 
         /// <summary>
         /// Definition for Get all labels

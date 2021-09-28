@@ -48,14 +48,14 @@ namespace FundooNotes.Controllers
         {
             try
             {
-                string message = this.notesManager.AddNotes(notesModel);
-                if (message.Equals("Added Notes Successfully"))
+                var message = this.notesManager.AddNotes(notesModel);
+                if (message!=null)
                 {
-                    return this.Ok(new ResponseModel<string>() { Status = true, Message = message });
+                    return this.Ok( new { Status = true, message.NoteId,Message = "Added Sucessfully" });
                 }
                 else
                 {
-                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = message });
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "Not added successfully" });
                 }
             }
             catch (Exception ex)

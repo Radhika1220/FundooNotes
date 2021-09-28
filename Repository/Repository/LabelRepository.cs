@@ -120,11 +120,12 @@ namespace Repository.Repository
         /// </summary>
         /// <param name="labelModel">passing a label model</param>
         /// <returns>returns a success or failed message</returns>
-        public string DeleteLabel(LabelModel labelModel)
+        public string DeleteLabel(int labelId)
         {
             try
             {
-                var exists = this.userContext.Label.Where(a => a.LabelName == labelModel.LabelName && a.UserId == labelModel.UserId).ToList();
+                var result = this.userContext.Label.Where(a => a.LabelId == labelId).SingleOrDefault();
+                var exists = this.userContext.Label.Where(a => a.LabelName == result.LabelName && a.UserId==result.UserId).ToList();
                 if (exists.Count != 0)
                 {
                     this.userContext.Label.RemoveRange(exists);

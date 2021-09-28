@@ -89,11 +89,11 @@ namespace Manager.Manager
         /// </summary>
         /// <param name="labelModel">passing a label model</param>
         /// <returns>returns a string message</returns>
-        public string DeleteLabel(LabelModel labelModel)
+        public string DeleteLabel(int labelId)
         {
             try
             {
-                return this.labelRepository.DeleteLabel(labelModel);
+                return this.labelRepository.DeleteLabel(labelId);
             }
             catch (Exception ex)
             {

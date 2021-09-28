@@ -39,7 +39,7 @@ namespace Manager.Manager
         /// </summary>
         /// <param name="notesModel">passing a notes model</param>
         /// <returns>Returns a string message</returns>
-        public string AddNotes(NotesModel notesModel)
+        public NotesModel AddNotes(NotesModel notesModel)
         {
             try
             {

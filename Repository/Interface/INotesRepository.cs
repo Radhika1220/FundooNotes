@@ -23,7 +23,7 @@ namespace Repository.Interface
         /// </summary>
         /// <param name="notesData">passing a note model</param>
         /// <returns>Returns a string message</returns>
-        string AddNotes(NotesModel notesData);
+        NotesModel AddNotes(NotesModel notesData);
 
         /// <summary>
         ///  Definition for Get notes method

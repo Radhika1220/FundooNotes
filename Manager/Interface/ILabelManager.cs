@@ -43,7 +43,7 @@ namespace Manager.Interface
         /// </summary>
         /// <param name="labelModel">passing a label model</param>
         /// <returns>returns a string message</returns>
-        string DeleteLabel(LabelModel labelModel);
+        string DeleteLabel(int labelId);
 
         /// <summary>
         /// Definition for Get all labels
